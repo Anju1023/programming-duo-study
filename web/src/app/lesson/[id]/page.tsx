@@ -26,35 +26,46 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
     const [id, setId] = useState<string | null>(null);
     const [lesson, setLesson] = useState<any>(null);
 
+    const [hearts, setInitialHearts] = useState<number>(5);
+
     useEffect(() => {
         params.then(p => setId(p.id));
     }, [params]);
     
-    // Quick and dirty client-side fetch for MVP to verify UI logic
     useEffect(() => {
         if(!id) return;
         
-        const fetchLesson = async () => {
+        const fetchData = async () => {
              const supabase = createClient();
-             const { data } = await supabase.from('lessons').select('*').eq('id', id).single();
-             if(data) setLesson(data);
+             // Fetch Lesson
+             const { data: lessonData } = await supabase.from('lessons').select('*').eq('id', id).single();
+             if(lessonData) setLesson(lessonData);
+             
+             // Fetch User Hearts
+             const { data: { user } } = await supabase.auth.getUser();
+             if (user) {
+                 const { data: profile } = await supabase.from('profiles').select('hearts').eq('id', user.id).single();
+                 if (profile) setInitialHearts(profile.hearts);
+             }
         };
-        fetchLesson();
+        fetchData();
     }, [id]);
 
 
   if (!lesson) return <div className="flex h-screen items-center justify-center">Loading...</div>;
 
-  return <LessonContainer lesson={lesson} />;
+  return <LessonContainer lesson={lesson} initialHearts={hearts} />;
 }
 
 
-function LessonContainer({ lesson }: { lesson: any }) {
+import { deductHeart, completeLesson } from "@/actions/user-progress";
+
+function LessonContainer({ lesson, initialHearts }: { lesson: any, initialHearts: number }) {
   const router = useRouter();
   const { runPython, stdout } = usePython();
   
   const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
-  const [hearts, setHearts] = useState(5); // TODO: Sync with DB
+  const [hearts, setHearts] = useState(initialHearts);
   const [status, setStatus] = useState<"idle" | "correct" | "incorrect">("idle");
   const [isValidating, setIsValidating] = useState(false);
 
@@ -108,11 +119,16 @@ function LessonContainer({ lesson }: { lesson: any }) {
      } else {
          setStatus("incorrect");
          setHearts(prev => Math.max(0, prev - 1));
+         
+         // Server Action: Deduct Heart
+         // We don't await this to keep UI responsive
+         deductHeart().catch((err) => console.error("Failed to deduct heart", err));
+         
          // Play Sound?
      }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
      if (currentChallengeIndex < challenges.length - 1) {
          setCurrentChallengeIndex(prev => prev + 1);
          setStatus("idle");
@@ -120,7 +136,7 @@ function LessonContainer({ lesson }: { lesson: any }) {
          setCode("");
      } else {
          // Lesson Completed!
-         // TODO: Save progress to DB
+         await completeLesson(lesson.id);
          router.push("/learn"); 
      }
   };
