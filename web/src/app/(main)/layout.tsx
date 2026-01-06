@@ -1,7 +1,7 @@
 import { Sidebar } from "@/components/layout/sidebar";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { MobileHeader } from "@/components/layout/mobile-header";
-import { MobileHeader } from "@/components/layout/mobile-header";
+
 
 export default function MainLayout({
   children,
