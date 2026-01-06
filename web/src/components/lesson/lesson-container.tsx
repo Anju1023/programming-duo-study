@@ -116,10 +116,12 @@ export function LessonContainer({
 	const handleModalContinue = async () => {
 		setIsCompleting(true);
 		try {
-			await completeLesson(lesson.id);
+			// Ensure ID is number and handle strictly
+			await completeLesson(Number(lesson.id));
 			router.push('/learn');
 		} catch (e) {
 			console.error('Failed to complete lesson', e);
+			alert('エラーが発生しました。もう一度お試しください。');
 			setIsCompleting(false);
 		}
 	};
@@ -154,6 +156,7 @@ export function LessonContainer({
 			<LessonCompleteModal
 				open={showCompleteModal}
 				xpEarned={10}
+				isLoading={isCompleting}
 				onContinue={handleModalContinue}
 			/>
 		</>

@@ -16,47 +16,18 @@ import { useEffect } from 'react';
 interface LessonCompleteModalProps {
 	open: boolean;
 	xpEarned: number;
+    isLoading?: boolean;
 	onContinue: () => void;
 }
 
 export function LessonCompleteModal({
 	open,
 	xpEarned,
+    isLoading,
 	onContinue,
 }: LessonCompleteModalProps) {
 	useEffect(() => {
-		if (open) {
-			// Fire confetti!
-			const duration = 3 * 1000;
-			const animationEnd = Date.now() + duration;
-			const defaults = {
-				startVelocity: 30,
-				spread: 360,
-				ticks: 60,
-				zIndex: 100,
-			}; // Ensure zIndex > Dialog
-
-			const randomInRange = (min: number, max: number) =>
-				Math.random() * (max - min) + min;
-
-			const interval: any = setInterval(function () {
-				const timeLeft = animationEnd - Date.now();
-
-				if (timeLeft <= 0) {
-					return clearInterval(interval);
-				}
-
-				const particleCount = 50 * (timeLeft / duration);
-				confetti({
-					...defaults,
-					particleCount,
-					origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-				});
-				confetti({
-					...defaults,
-					particleCount,
-					origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-				});
+// ... existing confetti logic ...
 			}, 250);
 
 			return () => clearInterval(interval);
@@ -94,9 +65,10 @@ export function LessonCompleteModal({
 				<DialogFooter className="sm:justify-center">
 					<Button
 						onClick={onContinue}
+                        disabled={isLoading}
 						className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold px-8"
 					>
-						次へ進む
+						{isLoading ? "処理中..." : "次へ進む"}
 					</Button>
 				</DialogFooter>
 			</DialogContent>
