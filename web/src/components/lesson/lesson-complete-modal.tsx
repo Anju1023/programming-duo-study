@@ -79,7 +79,7 @@ export function LessonCompleteModal({
 						Lesson Complete!
 					</DialogTitle>
 					<DialogDescription className="text-center text-slate-400">
-						すごい！レッスンをクリアしました！🎉
+						すごい！レッスンをクリアしました！
 					</DialogDescription>
 				</DialogHeader>
 
