@@ -39,6 +39,13 @@ export default async function LearnPage() {
         ))}
         
         <div className="h-20"></div> {/* Bottom Spacer */}
+
+        {/* DEBUG: Temporary Progress Viewer */}
+        <div className="fixed bottom-4 right-4 p-4 bg-black/80 text-white text-xs rounded-lg max-w-xs z-50 pointer-events-none">
+            <h4 className="font-bold border-b mb-1">Debug Info</h4>
+            <p>Completed: {JSON.stringify(completedLessonIds)}</p>
+            <p>Active ID: {activeLessonId || "None"}</p>
+        </div>
     </div>
   );
 }

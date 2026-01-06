@@ -95,3 +95,29 @@ values (1, 'Hello World', 1, '[
     "correctOption": "print()" 
   }
 ]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (1, '変数の魔法', 2, '[
+  {
+    "type": "CODE",
+    "question": "変数 `name` に \"プログラミング\" という文字を入れて、printしてください。",
+    "initialCode": "# ここにコードを書いてね\nname = ",
+    "correctOption": "print" 
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (1, '数値の計算', 3, '[
+  {
+    "type": "SELECT", 
+    "question": "Pythonで `print(2 + 3)` を実行するとどうなりますか？", 
+    "options": ["23", "5", "エラーになる"], 
+    "correctOption": "5" 
+  },
+  {
+    "type": "CODE",
+    "question": "変数 `apple` に 100 を入れて、`apple * 2` を print してください。",
+    "initialCode": "apple = 100\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
