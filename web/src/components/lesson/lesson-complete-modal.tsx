@@ -79,7 +79,7 @@ export function LessonCompleteModal({
 						Lesson Complete!
 					</DialogTitle>
 					<DialogDescription className="text-center text-slate-400">
-						Great job! You&apos;ve mastered this lesson.
+						すごい！レッスンをクリアしました！🎉
 					</DialogDescription>
 				</DialogHeader>
 
@@ -88,7 +88,7 @@ export function LessonCompleteModal({
 						<Star className="w-8 h-8 fill-current" />
 						<span>+{xpEarned} XP</span>
 					</div>
-					<p className="text-sm text-slate-500">Keep up the streak!</p>
+					<p className="text-sm text-slate-500">学習記録を更新しました！</p>
 				</div>
 
 				<DialogFooter className="sm:justify-center">
@@ -96,7 +96,7 @@ export function LessonCompleteModal({
 						onClick={onContinue}
 						className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold px-8"
 					>
-						Continue Journey
+						次へ進む
 					</Button>
 				</DialogFooter>
 			</DialogContent>
