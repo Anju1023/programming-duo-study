@@ -62,12 +62,17 @@ import { deductHeart, completeLesson } from "@/actions/user-progress";
 
 function LessonContainer({ lesson, initialHearts }: { lesson: any, initialHearts: number }) {
   const router = useRouter();
-  const { runPython, stdout } = usePython();
+  const { runPython, stdout, clearOutput } = usePython(); // Destructure clearOutput
   
   const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
   const [hearts, setHearts] = useState(initialHearts);
   const [status, setStatus] = useState<"idle" | "correct" | "incorrect">("idle");
   const [isValidating, setIsValidating] = useState(false);
+
+  // Clear output on mount
+  useEffect(() => {
+    clearOutput();
+  }, []);
 
   // User Inputs
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -90,16 +95,7 @@ function LessonContainer({ lesson, initialHearts }: { lesson: any, initialHearts
         try {
             await runPython(code);
             // Check output
-            // We need to wait a tiny bit for stdout to update or check logic
-            // For MVP: Simple string includes check on the code itself OR check the last output
-            // Let's check if the code produces the expected output.
-            // Since `stdout` is state, it might not be updated immediately in this memory scope *after* await.
-            // Actually `runPython` awaits completion. `stdout` state update is triggered.
-            // We might need to access the *result* or wait.
-            // Hack for MVP: Check if code contains the required print statement 
-            // Better: Check if `code` matches regex?
-            // Let's check if stdout contains expected string (we might need to check this in an effect or pass a callback)
-            // For now: Simple Code Match against "expectedOutput" if it existed, or just "Did they write print?"
+            // ... (rest of validation logic)
              
             // Simple validation: Does code contain "print"?
              if (code.includes("print")) {
@@ -134,6 +130,7 @@ function LessonContainer({ lesson, initialHearts }: { lesson: any, initialHearts
          setStatus("idle");
          setSelectedOption(null);
          setCode("");
+         clearOutput(); // Clear output for next challenge
      } else {
          // Lesson Completed!
          await completeLesson(lesson.id);

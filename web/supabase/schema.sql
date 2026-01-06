@@ -135,3 +135,9 @@ values (1, '数値の計算', 3, '[
     "correctOption": "print"
   }
 ]'::jsonb);
+
+-- Backfill profiles for existing auth users (in case of DB reset)
+insert into public.profiles (id, email, username)
+select id, email, raw_user_meta_data->>'full_name'
+from auth.users
+on conflict (id) do nothing;
