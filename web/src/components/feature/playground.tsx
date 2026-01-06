@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useState, useEffect } from 'react';
 import { CodeEditor } from '@/components/code/code-editor';
 import { Terminal } from '@/components/code/terminal';
