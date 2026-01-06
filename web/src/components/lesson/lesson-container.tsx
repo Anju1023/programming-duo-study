@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { LessonHeader } from '@/components/lesson/header';
 import { LessonFooter } from '@/components/lesson/footer';
 import { ChallengeRenderer } from '@/components/lesson/challenge-renderer';
+import { LessonCompleteModal } from '@/components/lesson/lesson-complete-modal';
 import { useRouter } from 'next/navigation';
 import { usePython } from '@/hooks/use-python';
 import { deductHeart, completeLesson } from '@/actions/user-progress';
@@ -21,6 +22,9 @@ export function LessonContainer({
 
 	const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
 	const [hearts, setHearts] = useState(initialHearts);
+
+	const [showCompleteModal, setShowCompleteModal] = useState(false);
+	const [isCompleting, setIsCompleting] = useState(false);
 
 	// Sync hearts when initialHearts loads from DB (fixes "Always starts at 5" bug)
 	// Even with Server Component, this is good to keep if props update, though strictly not needed if checking pure mount.
@@ -104,9 +108,19 @@ export function LessonContainer({
 			setCode('');
 			clearOutput(); // Clear output for next challenge
 		} else {
-			// Lesson Completed!
+			// Lesson Completed! Show modal
+			setShowCompleteModal(true);
+		}
+	};
+
+	const handleModalContinue = async () => {
+		setIsCompleting(true);
+		try {
 			await completeLesson(lesson.id);
 			router.push('/learn');
+		} catch (e) {
+			console.error('Failed to complete lesson', e);
+			setIsCompleting(false);
 		}
 	};
 
@@ -115,26 +129,33 @@ export function LessonContainer({
 	};
 
 	return (
-		<div className="flex min-h-screen flex-col bg-background">
-			<LessonHeader hearts={hearts} percentage={progressPercentage} />
+		<>
+			<div className="flex min-h-screen flex-col bg-background">
+				<LessonHeader hearts={hearts} percentage={progressPercentage} />
 
-			<main className="flex-1 flex flex-col items-center justify-center p-4 lg:p-8 pt-24 pb-32">
-				<ChallengeRenderer
-					challenge={currentChallenge}
-					sessionState={{ selectedOption, code }}
-					onSelectOption={setSelectedOption}
-					onCodeChange={setCode}
+				<main className="flex-1 flex flex-col items-center justify-center p-4 lg:p-8 pt-24 pb-32">
+					<ChallengeRenderer
+						challenge={currentChallenge}
+						sessionState={{ selectedOption, code }}
+						onSelectOption={setSelectedOption}
+						onCodeChange={setCode}
+						status={status}
+					/>
+				</main>
+
+				<LessonFooter
 					status={status}
+					isValidating={isValidating || isCompleting}
+					onCheck={handleCheck}
+					onContinue={handleContinue}
+					onRetry={handleRetry}
 				/>
-			</main>
-
-			<LessonFooter
-				status={status}
-				isValidating={isValidating}
-				onCheck={handleCheck}
-				onContinue={handleContinue}
-				onRetry={handleRetry}
+			</div>
+			<LessonCompleteModal
+				open={showCompleteModal}
+				xpEarned={10}
+				onContinue={handleModalContinue}
 			/>
-		</div>
+		</>
 	);
 }
