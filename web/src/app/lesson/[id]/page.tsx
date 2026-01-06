@@ -90,6 +90,12 @@ function LessonContainer({
 
 	const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
 	const [hearts, setHearts] = useState(initialHearts);
+
+	// Sync hearts when initialHearts loads from DB (fixes "Always starts at 5" bug)
+	useEffect(() => {
+		setHearts(initialHearts);
+	}, [initialHearts]);
+
 	const [status, setStatus] = useState<'idle' | 'correct' | 'incorrect'>(
 		'idle'
 	);
