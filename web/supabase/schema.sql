@@ -80,6 +80,20 @@ create table user_progress (
   primary key (user_id)
 );
 
+alter table user_progress enable row level security;
+
+create policy "Users can view own progress."
+  on user_progress for select
+  using ( auth.uid() = user_id );
+
+create policy "Users can insert own progress."
+  on user_progress for insert
+  with check ( auth.uid() = user_id );
+
+create policy "Users can update own progress."
+  on user_progress for update
+  using ( auth.uid() = user_id );
+
 -- Seed Initial Data (Python 101)
 insert into courses (title, image_src) values ('Python 基礎 (Python Basics)', '/icons/python.svg');
 

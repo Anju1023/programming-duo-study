@@ -32,45 +32,64 @@ export const deductHeart = async () => {
 };
 
 export const completeLesson = async (lessonId: number) => {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    throw new Error("Unauthorized");
-  }
+    if (!user) {
+      throw new Error("Unauthorized");
+    }
 
-  // 1. Update User Progress (Completed Lessons)
-  const { data: progress } = await supabase
-    .from("user_progress")
-    .select("completed_lesson_ids")
-    .eq("user_id", user.id)
-    .single();
+    console.log(`[completeLesson] User: ${user.id}, Lesson: ${lessonId}`);
 
-  if (progress) {
-    const isAlreadyCompleted = progress.completed_lesson_ids.includes(lessonId);
-    if (!isAlreadyCompleted) {
-      await supabase
-        .from("user_progress")
-        .update({
-          completed_lesson_ids: [...progress.completed_lesson_ids, lessonId],
-        })
-        .eq("user_id", user.id);
+    // 1. Update User Progress (Completed Lessons)
+    const { data: progress, error: fetchError } = await supabase
+      .from("user_progress")
+      .select("completed_lesson_ids")
+      .eq("user_id", user.id)
+      .single();
+    
+    if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 is "Row not found"
+        console.error("[completeLesson] Fetch Error:", fetchError);
+    }
+
+    if (progress) {
+      const isAlreadyCompleted = progress.completed_lesson_ids.includes(lessonId);
+      if (!isAlreadyCompleted) {
+        const { error: updateError } = await supabase
+          .from("user_progress")
+          .update({
+            completed_lesson_ids: [...progress.completed_lesson_ids, lessonId],
+          })
+          .eq("user_id", user.id);
         
+        if (updateError) console.error("[completeLesson] Update Error:", updateError);
+
         // 2. Award XP
         await incrementXP(user.id, 10);
-     }
-  } else {
-    // Create progress row if not exists
-    await supabase.from("user_progress").insert({
-      user_id: user.id,
-      active_course_id: 1, // Default to Python Basics
-      completed_lesson_ids: [lessonId],
-    });
-     await incrementXP(user.id, 10);
-  }
+      } else {
+          console.log("[completeLesson] Already completed.");
+      }
+    } else {
+      console.log("[completeLesson] Creating new progress row...");
+      // Create progress row if not exists
+      const { error: insertError } = await supabase.from("user_progress").insert({
+        user_id: user.id,
+        active_course_id: 1, // Default to Python Basics
+        completed_lesson_ids: [lessonId],
+      });
+      
+      if (insertError) console.error("[completeLesson] Insert Error:", insertError);
 
-  revalidatePath("/learn");
-  revalidatePath("/lesson");
+      await incrementXP(user.id, 10);
+    }
+
+    revalidatePath("/learn");
+    revalidatePath("/lesson");
+  } catch (err) {
+      console.error("[completeLesson] Unexpected Error:", err);
+      throw err; // Re-throw to show in UI if needed
+  }
 };
 
 
