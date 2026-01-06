@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CircleCheck, CircleX } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface LessonFooterProps {
@@ -35,14 +35,14 @@ export function LessonFooter({
 
         {status === "correct" && (
           <div className="flex items-center gap-2 text-xl font-bold text-green-600">
-            <CheckCircle className="h-8 w-8 fill-current" />
+            <CircleCheck className="h-8 w-8" />
             <span>正解！</span>
           </div>
         )}
 
         {status === "incorrect" && (
           <div className="flex items-center gap-2 text-xl font-bold text-rose-600">
-            <XCircle className="h-8 w-8 fill-current" />
+            <CircleX className="h-8 w-8" />
             <span>不正解...</span>
           </div>
         )}
