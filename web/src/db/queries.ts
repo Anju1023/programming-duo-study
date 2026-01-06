@@ -39,3 +39,14 @@ export const getCourseData = cache(async () => {
 
   return course;
 });
+
+export const getLesson = cache(async (lessonId: number) => {
+  const supabase = await createClient();
+  const { data: lesson } = await supabase
+    .from("lessons")
+    .select("*")
+    .eq("id", lessonId)
+    .single();
+
+  return lesson;
+});
