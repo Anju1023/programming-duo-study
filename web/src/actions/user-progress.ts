@@ -36,7 +36,14 @@ export const deductHeart = async () => {
 			console.error('[deductHeart] Update Error:', error);
 		}
 	} else {
-		console.warn('[deductHeart] Profile not found for user:', user.id);
+		// Fallback: Profile missing? Create one with 4 hearts (5 - 1)
+		console.warn('[deductHeart] Profile missing, creating new...', user.id);
+		const { error } = await supabase.from('profiles').insert({
+			id: user.id,
+			email: user.email,
+			hearts: 4, // Started with 5, lost 1
+		});
+		if (error) console.error('[deductHeart] Insert Error:', error);
 	}
 
 	// No revalidation needed for current page as it uses local state.
@@ -128,10 +135,23 @@ async function incrementXP(userId: string, amount: number) {
 		.select('xp')
 		.eq('id', userId)
 		.single();
+
 	if (profile) {
 		await supabase
 			.from('profiles')
 			.update({ xp: profile.xp + amount })
 			.eq('id', userId);
+	} else {
+		// Fallback create
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+		if (user) {
+			await supabase.from('profiles').insert({
+				id: userId,
+				email: user.email,
+				xp: amount,
+			});
+		}
 	}
 }
