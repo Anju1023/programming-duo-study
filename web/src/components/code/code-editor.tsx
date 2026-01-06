@@ -29,7 +29,7 @@ export function CodeEditor({ value, onChange, className }: CodeEditorProps) {
 				onValueChange={onChange}
 				highlight={(code) => highlight(code, languages.python, 'python')}
 				padding={20}
-				className="min-h-[200px] font-mono text-sm"
+				className="min-h-[200px] font-mono text-sm text-slate-50"
 				textareaClassName="focus:outline-none"
 				style={{
 					fontFamily: '"Fira Code", "Fira Mono", monospace',
