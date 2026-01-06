@@ -13,7 +13,9 @@ export default function Home() {
             <span>CodePop</span>
           </div>
           <nav className="flex items-center gap-4">
-            <Button variant="ghost">Log in</Button>
+            <Button variant="ghost" asChild>
+              <Link href="/login">Log in</Link>
+            </Button>
             <Button>Get Started</Button>
           </nav>
         </div>
