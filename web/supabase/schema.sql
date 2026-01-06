@@ -1,3 +1,11 @@
+-- Reset Database (Use with caution!)
+drop table if exists user_progress cascade;
+drop table if exists lessons cascade;
+drop table if exists units cascade;
+drop table if exists courses cascade;
+drop table if exists profiles cascade;
+drop function if exists public.handle_new_user cascade;
+
 -- Create a table for public profiles using Supabase Auth
 create table profiles (
   id uuid references auth.users on delete cascade not null primary key,
@@ -37,6 +45,7 @@ begin
 end;
 $$ language plpgsql security definer;
 
+drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
