@@ -62,6 +62,7 @@ import { deductHeart, completeLesson } from "@/actions/user-progress";
 
 function LessonContainer({ lesson, initialHearts }: { lesson: any, initialHearts: number }) {
   const router = useRouter();
+  console.log("Rendering LessonContainer. InitialHearts:", initialHearts);
   const { runPython, stdout, clearOutput } = usePython(); // Destructure clearOutput
   
   const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);

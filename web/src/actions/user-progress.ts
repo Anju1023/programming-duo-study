@@ -27,8 +27,9 @@ export const deductHeart = async () => {
       .eq("id", user.id);
   }
   
+  // No revalidation needed for current page as it uses local state.
+  // We can revalidate /learn so that if they exit, it's updated.
   revalidatePath("/learn");
-  revalidatePath("/lesson");
 };
 
 export const completeLesson = async (lessonId: number) => {
