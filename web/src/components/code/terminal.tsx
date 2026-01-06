@@ -2,7 +2,7 @@
 
 import { usePython } from "@/hooks/use-python";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { TerminalIcon } from "lucide-react";
+import { Terminal as TerminalIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 

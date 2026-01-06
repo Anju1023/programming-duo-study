@@ -1,4 +1,4 @@
-import { PythonProvider } from "@/components/providers/python-provider";
+
 
 export default function LessonLayout({
   children,
@@ -6,8 +6,8 @@ export default function LessonLayout({
   children: React.ReactNode;
 }) {
   return (
-    <PythonProvider>
+    <>
        {children}
-    </PythonProvider>
+    </>
   );
 }

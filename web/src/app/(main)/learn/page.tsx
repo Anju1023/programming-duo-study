@@ -1,6 +1,7 @@
 import { getCourseData, getUserProgress } from "@/db/queries";
 import { UnitSection } from "@/components/learn/unit-section";
 import { PythonPlayground } from "@/components/feature/playground";
+import { FlaskConical } from "lucide-react";
 import { redirect } from "next/navigation";
 
 export default async function LearnPage() {
@@ -19,7 +20,10 @@ export default async function LearnPage() {
     <div className="flex flex-col items-center gap-8 py-8 w-full">
         {/* Temporary Playground for Testing */}
         <div className="w-full max-w-2xl bg-muted/20 p-6 rounded-xl border border-dashed border-primary/50">
-            <h2 className="text-xl font-bold mb-4 text-center">🧪 Python 実験室</h2>
+            <h2 className="text-xl font-bold mb-4 text-center flex items-center justify-center gap-2">
+              <FlaskConical className="h-6 w-6" />
+              Python 実験室
+            </h2>
             <PythonPlayground />
         </div>
 
