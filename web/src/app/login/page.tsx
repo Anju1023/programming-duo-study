@@ -1,8 +1,24 @@
-import { login, loginWithGoogle, signup } from './actions'
+'use client'
+
+import { useActionState } from 'react'
+import { login, signup } from './actions'
+import { loginWithGoogle } from './actions'
 import { Button } from '@/components/ui/button'
 import { Code2 } from 'lucide-react'
 
+// Wrapper to match useActionState signature
+async function loginAction(prevState: any, formData: FormData) {
+  return await login(formData)
+}
+
+async function signupAction(prevState: any, formData: FormData) {
+  return await signup(formData)
+}
+
 export default function LoginPage() {
+  const [loginState, loginDispatch, isLoginPending] = useActionState(loginAction, null)
+  const [signupState, signupDispatch, isSignupPending] = useActionState(signupAction, null)
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="w-full max-w-md space-y-8">
@@ -39,13 +55,21 @@ export default function LoginPage() {
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               />
             </div>
+
+            {/* Error Message Display */}
+            {loginState?.error && (
+              <p className="text-sm text-destructive">{loginState.error}</p>
+            )}
+            {signupState?.error && (
+              <p className="text-sm text-destructive">{signupState.error}</p>
+            )}
             
             <div className="flex flex-col gap-2 pt-2">
-              <Button formAction={login} className="w-full">
-                Sign In
+              <Button formAction={loginDispatch} disabled={isLoginPending} className="w-full">
+                {isLoginPending ? 'Signing in...' : 'Sign In'}
               </Button>
-              <Button formAction={signup} variant="outline" className="w-full">
-                Sign Up
+              <Button formAction={signupDispatch} disabled={isSignupPending} variant="outline" className="w-full">
+                {isSignupPending ? 'Signing up...' : 'Sign Up'}
               </Button>
             </div>
           </form>
