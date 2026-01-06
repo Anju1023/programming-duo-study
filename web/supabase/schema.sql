@@ -72,16 +72,16 @@ create table user_progress (
 );
 
 -- Seed Initial Data (Python 101)
-insert into courses (title, image_src) values ('Python Basics', '/icons/python.svg');
+insert into courses (title, image_src) values ('Python 基礎 (Python Basics)', '/icons/python.svg');
 
 insert into units (course_id, title, description, "order") 
-values (1, 'Introduction to Python', 'Learn the basics of Python syntax and variables.', 1);
+values (1, 'Python入門', 'Pythonの基本的な構文と変数の使い方を学びます。', 1);
 
 insert into lessons (unit_id, title, "order", challenges)
 values (1, 'Hello World', 1, '[
   {
     "type": "SELECT", 
-    "question": "How do you print text in Python?", 
+    "question": "Pythonでテキストを表示するにはどうしますか？", 
     "options": ["console.log()", "print()", "echo"], 
     "correctOption": "print()" 
   }

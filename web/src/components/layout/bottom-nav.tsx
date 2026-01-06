@@ -2,9 +2,9 @@ import Link from "next/link";
 import { Trophy, User, BookOpen } from "lucide-react";
 
 const navItems = [
-  { label: "Learn", href: "/learn", icon: BookOpen },
-  { label: "Leaderboard", href: "/leaderboard", icon: Trophy },
-  { label: "Profile", href: "/profile", icon: User },
+  { label: "学ぶ", href: "/learn", icon: BookOpen },
+  { label: "ランキング", href: "/leaderboard", icon: Trophy },
+  { label: "プロフィール", href: "/profile", icon: User },
 ];
 
 export function BottomNav() {

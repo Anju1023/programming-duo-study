@@ -14,9 +14,9 @@ export default function Home() {
           </div>
           <nav className="flex items-center gap-4">
             <Button variant="ghost" asChild>
-              <Link href="/login">Log in</Link>
+              <Link href="/login">ログイン</Link>
             </Button>
-            <Button>Get Started</Button>
+            <Button>はじめる</Button>
           </nav>
         </div>
       </header>
@@ -26,20 +26,20 @@ export default function Home() {
         <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10 lg:py-16">
           <div className="flex max-w-[980px] flex-col items-start gap-4">
             <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1]">
-              Master Python <br className="hidden sm:inline" />
-              with <span className="text-primary">Gamified Learning</span>
+              <span className="text-primary">ゲーム感覚</span>で<br />
+              Pythonをマスターしよう
             </h1>
             <p className="max-w-[700px] text-lg text-muted-foreground sm:text-xl">
-              Build real apps, solve puzzles, and compete with friends. 
-              The most fun way to learn programming starts here.
+              実際のアプリを作ったり、パズルを解いたり、友達と競い合ったり。<br />
+              プログラミング学習の「一番楽しい」がここから始まります。
             </p>
           </div>
           <div className="flex gap-4">
             <Button size="lg" className="gap-2 text-lg px-8 h-12">
-              Start Learning Now <ArrowRight className="h-5 w-5" />
+              今すぐ学習を始める <ArrowRight className="h-5 w-5" />
             </Button>
             <Button variant="outline" size="lg" className="h-12 text-lg">
-              View Syllabus
+              カリキュラムを見る
             </Button>
           </div>
 
@@ -49,22 +49,22 @@ export default function Home() {
               <div className="p-4 bg-primary/10 rounded-full mb-4">
                 <Flame className="h-8 w-8 text-orange-500" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Daily Streaks</h3>
-              <p className="text-muted-foreground">Build a habit by coding every day. Don't break the chain!</p>
+              <h3 className="text-xl font-bold mb-2">毎日続く</h3>
+              <p className="text-muted-foreground">毎日のストリーク機能で、学習習慣が自然と身につきます。</p>
             </div>
             <div className="flex flex-col items-center text-center p-6 bg-card rounded-xl border shadow-sm">
               <div className="p-4 bg-primary/10 rounded-full mb-4">
                 <Code2 className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Interactive Code</h3>
-              <p className="text-muted-foreground">Run Python directly in your browser. No setup required.</p>
+              <h3 className="text-xl font-bold mb-2">インタラクティブ</h3>
+              <p className="text-muted-foreground">ブラウザ上でPythonコードを直接実行。環境構築は不要です。</p>
             </div>
             <div className="flex flex-col items-center text-center p-6 bg-card rounded-xl border shadow-sm">
               <div className="p-4 bg-primary/10 rounded-full mb-4">
                 <Trophy className="h-8 w-8 text-yellow-500" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Compete & Win</h3>
-              <p className="text-muted-foreground">Climb the leaderboard and earn badges as you master new skills.</p>
+              <h3 className="text-xl font-bold mb-2">競い合う楽しさ</h3>
+              <p className="text-muted-foreground">ランキングで上位を目指し、新しいスキルを習得してバッジを集めよう。</p>
             </div>
           </div>
         </section>

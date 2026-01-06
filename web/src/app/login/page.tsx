@@ -25,17 +25,17 @@ export default function LoginPage() {
         <div className="flex flex-col items-center text-center">
           <Code2 className="h-12 w-12 text-primary mb-2" />
           <h2 className="text-3xl font-extrabold tracking-tight">
-            Welcome to CodePop
+            CodePopへようこそ
           </h2>
           <p className="text-muted-foreground mt-2">
-            Sign in to continue your learning journey
+            ログインして学習を続けましょう！
           </p>
         </div>
 
         <div className="bg-card p-8 rounded-xl border shadow-sm space-y-6">
           <form className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">Email</label>
+              <label htmlFor="email" className="text-sm font-medium">メールアドレス</label>
               <input
                 id="email"
                 name="email"
@@ -46,7 +46,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium">Password</label>
+              <label htmlFor="password" className="text-sm font-medium">パスワード</label>
               <input
                 id="password"
                 name="password"
@@ -66,10 +66,10 @@ export default function LoginPage() {
             
             <div className="flex flex-col gap-2 pt-2">
               <Button formAction={loginDispatch} disabled={isLoginPending} className="w-full">
-                {isLoginPending ? 'Signing in...' : 'Sign In'}
+                {isLoginPending ? 'ログイン中...' : 'ログイン'}
               </Button>
               <Button formAction={signupDispatch} disabled={isSignupPending} variant="outline" className="w-full">
-                {isSignupPending ? 'Signing up...' : 'Sign Up'}
+                {isSignupPending ? '登録中...' : '新規登録'}
               </Button>
             </div>
           </form>
@@ -80,14 +80,14 @@ export default function LoginPage() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-card px-2 text-muted-foreground">
-                Or continue with
+                または
               </span>
             </div>
           </div>
 
           <form action={loginWithGoogle}>
              <Button variant="secondary" className="w-full" type="submit">
-              Google
+              Googleで続ける
              </Button>
           </form>
         </div>

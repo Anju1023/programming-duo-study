@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Code2, Trophy, User, BookOpen } from "lucide-react";
 
 const sidebarItems = [
-  { label: "Learn", href: "/learn", icon: BookOpen },
-  { label: "Leaderboard", href: "/leaderboard", icon: Trophy },
-  { label: "Profile", href: "/profile", icon: User },
+  { label: "学ぶ", href: "/learn", icon: BookOpen },
+  { label: "ランキング", href: "/leaderboard", icon: Trophy },
+  { label: "プロフィール", href: "/profile", icon: User },
 ];
 
 export function Sidebar({ className }: { className?: string }) {

@@ -6,7 +6,7 @@ export function MobileHeader() {
     <div className="flex h-16 items-center justify-between border-b bg-card px-4 lg:hidden">
       {/* Course Selector (Placeholder) */}
       <Button variant="ghost" className="font-bold">
-        Python Basics
+        Python 基礎
       </Button>
 
       {/* Stats */}
