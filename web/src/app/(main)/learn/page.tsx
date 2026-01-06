@@ -1,26 +1,33 @@
-import { Button } from "@/components/ui/button";
+import { getCourseData, getUserProgress } from "@/db/queries";
+import { UnitSection } from "@/components/learn/unit-section";
+import { redirect } from "next/navigation";
 
-export default function LearnPage() {
+export default async function LearnPage() {
+  const courseData = await getCourseData();
+  const userProgress = await getUserProgress();
+
+  if (!courseData) {
+      return <div>コースデータが見つかりません。</div>;
+  }
+  
+  // Default to empty array if no progress yet
+  const completedLessonIds = userProgress?.completed_lesson_ids || [];
+  const activeLessonId = userProgress?.active_lesson_id; 
+
   return (
-    <div className="flex flex-col items-center gap-8 py-8">
-      <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold">ユニット 1: Python入門</h1>
-        <p className="text-muted-foreground">プログラミングの世界への第一歩を踏み出しましょう。</p>
-      </div>
-
-      {/* TODO: Sugoroku Map Component will go here */}
-      <div className="flex flex-col items-center gap-4 w-full max-w-md">
-        <div className="p-4 border rounded-xl bg-card w-full text-center shadow-sm">
-           <div className="mb-2 font-bold text-lg">レッスン 1: Hello World</div>
-           <Button className="w-full" size="lg">スタート</Button>
-        </div>
+    <div className="flex flex-col items-center gap-8 py-8 w-full">
+        {/* Sticky Header could go here */}
         
-        {/* Mock Locked Lessons */}
-        <div className="p-4 border rounded-xl bg-muted w-full text-center opacity-70">
-           <div className="mb-2 font-bold text-lg">レッスン 2: 変数</div>
-           <Button variant="outline" className="w-full" disabled>ロック中</Button>
-        </div>
-      </div>
+        {courseData.units.map((unit: any) => (
+            <UnitSection 
+                key={unit.id}
+                unit={unit}
+                activeLessonId={activeLessonId}
+                completedLessonIds={completedLessonIds}
+            />
+        ))}
+        
+        <div className="h-20"></div> {/* Bottom Spacer */}
     </div>
   );
 }
