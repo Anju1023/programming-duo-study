@@ -33,9 +33,10 @@ export function LessonContainer({
 	);
 	const [isValidating, setIsValidating] = useState(false);
 
-	// Clear output on mount
+	// Clear output on mount and unmount
 	useEffect(() => {
 		clearOutput();
+		return () => clearOutput();
 	}, []);
 
 	// User Inputs
