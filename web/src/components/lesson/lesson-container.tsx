@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { LessonHeader } from '@/components/lesson/header';
 import { LessonFooter } from '@/components/lesson/footer';
 import { ChallengeRenderer } from '@/components/lesson/challenge-renderer';
@@ -19,7 +19,7 @@ export function LessonContainer({
 }) {
 	const router = useRouter();
 	console.log('Rendering LessonContainer. InitialHearts:', initialHearts);
-	const { runPython, stdout, clearOutput } = usePython(); // Destructure clearOutput
+	const { runPython, stdout, clearOutput } = usePython();
 	const { playSuccess, playError, playComplete } = useSoundEffects();
 
 	const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
@@ -28,8 +28,14 @@ export function LessonContainer({
 	const [showCompleteModal, setShowCompleteModal] = useState(false);
 	const [isCompleting, setIsCompleting] = useState(false);
 
-	// Sync hearts when initialHearts loads from DB (fixes "Always starts at 5" bug)
-	// Even with Server Component, this is good to keep if props update, though strictly not needed if checking pure mount.
+	// 間違えた問題を追跡（Duolingo風の再出題機能）
+	const [wrongChallengeIndices, setWrongChallengeIndices] = useState<number[]>(
+		[]
+	);
+	const [isRetryPhase, setIsRetryPhase] = useState(false);
+	const [retryIndex, setRetryIndex] = useState(0);
+
+	// Sync hearts when initialHearts loads from DB
 	useEffect(() => {
 		setHearts(initialHearts);
 	}, [initialHearts]);
@@ -50,13 +56,20 @@ export function LessonContainer({
 	const [code, setCode] = useState('');
 
 	const challenges = lesson.challenges || [];
-	const currentChallenge = challenges[currentChallengeIndex];
+	const currentChallenge = isRetryPhase
+		? challenges[wrongChallengeIndices[retryIndex]]
+		: challenges[currentChallengeIndex];
+
+	// プログレス計算（再出題フェーズも考慮）
+	const totalSteps = challenges.length + wrongChallengeIndices.length;
+	const currentStep = isRetryPhase
+		? challenges.length + retryIndex + 1
+		: currentChallengeIndex + 1;
 	const progressPercentage =
-		((currentChallengeIndex + 1) / challenges.length) * 100;
+		(currentStep / Math.max(totalSteps, challenges.length)) * 100;
 
 	const handleCheck = async () => {
 		if (!currentChallengeIndex && currentChallengeIndex !== 0) return;
-		const currentChallenge = challenges[currentChallengeIndex];
 		if (!currentChallenge) return;
 
 		setIsValidating(true);
@@ -65,17 +78,9 @@ export function LessonContainer({
 		if (currentChallenge.type === 'SELECT') {
 			isCorrect = selectedOption === currentChallenge.correctOption;
 		} else if (currentChallenge.type === 'CODE') {
-			// Run code first
 			try {
 				await runPython(code);
-
-				// Validation:
-				// 1. Must not error (runPython throws if error)
-				// 2. Must contain specific keyword if defined in DB (stored in correctOption for now)
-
 				const requiredKeyword = currentChallenge.correctOption;
-
-				// If the code ran successfully (no error caught) AND contains the required keyword
 				if (code.includes(requiredKeyword)) {
 					isCorrect = true;
 				}
@@ -95,8 +100,18 @@ export function LessonContainer({
 			playError();
 			setHearts((prev) => Math.max(0, prev - 1));
 
+			// 間違えた問題を記録（再出題フェーズでなければ）
+			if (!isRetryPhase) {
+				setWrongChallengeIndices((prev) => {
+					// 重複を避ける
+					if (!prev.includes(currentChallengeIndex)) {
+						return [...prev, currentChallengeIndex];
+					}
+					return prev;
+				});
+			}
+
 			// Server Action: Deduct Heart
-			// We don't await this to keep UI responsive
 			deductHeart().catch((err) =>
 				console.error('Failed to deduct heart', err)
 			);
@@ -104,23 +119,51 @@ export function LessonContainer({
 	};
 
 	const handleContinue = async () => {
+		// 再出題フェーズの場合
+		if (isRetryPhase) {
+			if (retryIndex < wrongChallengeIndices.length - 1) {
+				// 次の再出題問題へ
+				setRetryIndex((prev) => prev + 1);
+				setStatus('idle');
+				setSelectedOption(null);
+				setCode('');
+				clearOutput();
+			} else {
+				// 全ての再出題が完了
+				playComplete();
+				setShowCompleteModal(true);
+			}
+			return;
+		}
+
+		// 通常フェーズ
 		if (currentChallengeIndex < challenges.length - 1) {
 			setCurrentChallengeIndex((prev) => prev + 1);
 			setStatus('idle');
 			setSelectedOption(null);
 			setCode('');
-			clearOutput(); // Clear output for next challenge
+			clearOutput();
 		} else {
-			// Lesson Completed! Show modal
-			playComplete();
-			setShowCompleteModal(true);
+			// 全問終了
+			if (wrongChallengeIndices.length > 0) {
+				// 間違えた問題がある場合は再出題フェーズへ
+				setIsRetryPhase(true);
+				setRetryIndex(0);
+				setStatus('idle');
+				setSelectedOption(null);
+				setCode('');
+				clearOutput();
+			} else {
+				// 間違えた問題がない場合は完了
+				playComplete();
+				setShowCompleteModal(true);
+			}
 		}
 	};
 
 	const handleModalContinue = async () => {
 		setIsCompleting(true);
 		try {
-			// Ensure ID is number and handle strictly
 			await completeLesson(Number(lesson.id));
 			router.push('/learn');
 		} catch (e) {
@@ -140,6 +183,13 @@ export function LessonContainer({
 				<LessonHeader hearts={hearts} percentage={progressPercentage} />
 
 				<main className="flex-1 flex flex-col items-center justify-center p-4 lg:p-8 pt-24 pb-32">
+					{/* 再出題フェーズの場合はメッセージを表示 */}
+					{isRetryPhase && (
+						<div className="mb-4 px-4 py-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-lg text-sm font-medium">
+							間違えた問題をもう一度！ ({retryIndex + 1}/
+							{wrongChallengeIndices.length})
+						</div>
+					)}
 					<ChallengeRenderer
 						challenge={currentChallenge}
 						sessionState={{ selectedOption, code }}

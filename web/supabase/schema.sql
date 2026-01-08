@@ -111,6 +111,18 @@ values (1, 'Hello World', 1, '[
     "question": "Pythonでテキストを表示するにはどうしますか？", 
     "options": ["console.log()", "print()", "echo"], 
     "correctOption": "print()" 
+  },
+  {
+    "type": "CODE",
+    "question": "\"Hello World\" と表示するコードを書いてください。",
+    "initialCode": "# print() を使って表示しよう\n",
+    "correctOption": "print"
+  },
+  {
+    "type": "SELECT",
+    "question": "print(\"こんにちは\") を実行すると何が表示される？",
+    "options": ["こんにちは", "print(\"こんにちは\")", "エラー"],
+    "correctOption": "こんにちは"
   }
 ]'::jsonb);
 
@@ -480,6 +492,179 @@ values (6, 'スコープと変数', 3, '[
     "question": "グローバル変数 `name` を作り、関数 `hello` の中でそれを使って挨拶を print してください。",
     "initialCode": "# グローバル変数と関数を作ろう\n",
     "correctOption": "def"
+  }
+]'::jsonb);
+
+-- =============================================
+-- 復習レッスン（セクションまとめ）
+-- Duolingo風: 各Unitの最後に復習クイズを追加
+-- =============================================
+
+-- Unit 1 復習レッスン
+insert into lessons (unit_id, title, "order", challenges)
+values (1, '復習: Python入門', 4, '[
+  {
+    "type": "LEARN",
+    "content": "# Unit 1 の復習\\n\\nここまで学んだことを復習しましょう！\\n\\n## 学んだこと\\n- `print()` で文字を表示\\n- 変数にデータを保存\\n- 四則演算（+, -, *, /）\\n\\n準備はいい？"
+  },
+  {
+    "type": "SELECT",
+    "question": "次のうち、正しい変数の宣言はどれ？",
+    "options": ["123name = \"test\"", "name = \"test\"", "\"name\" = test"],
+    "correctOption": "name = \"test\""
+  },
+  {
+    "type": "SELECT",
+    "question": "print(10 - 3) の結果は？",
+    "options": ["103", "7", "\"10 - 3\""],
+    "correctOption": "7"
+  },
+  {
+    "type": "CODE",
+    "question": "変数 `greeting` に \"Hello\" を入れて print してください。",
+    "initialCode": "# 変数を作って表示しよう\\n",
+    "correctOption": "print"
+  },
+  {
+    "type": "SELECT",
+    "question": "掛け算に使う記号は？",
+    "options": ["x", "*", "#"],
+    "correctOption": "*"
+  }
+]'::jsonb);
+
+-- Unit 2 復習レッスン
+insert into lessons (unit_id, title, "order", challenges)
+values (2, '復習: データ型と操作', 4, '[
+  {
+    "type": "LEARN",
+    "content": "# Unit 2 の復習\\n\\n## 学んだこと\\n- f-string で変数を文字列に埋め込む\\n- 余り演算子 `%`\\n- データ型（int, str, float）と型変換"
+  },
+  {
+    "type": "SELECT",
+    "question": "f-string の正しい書き方は？",
+    "options": ["f\"Hello {name}\"", "\"Hello\" + name", "f(\"Hello {name}\")"],
+    "correctOption": "f\"Hello {name}\""
+  },
+  {
+    "type": "SELECT",
+    "question": "15 % 4 の結果は？",
+    "options": ["3", "3.75", "4"],
+    "correctOption": "3"
+  },
+  {
+    "type": "CODE",
+    "question": "文字列 \"100\" を整数に変換して、50 を足した結果を print してください。",
+    "initialCode": "num_str = \"100\"\\n# 型変換して計算しよう\\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+-- Unit 3 復習レッスン
+insert into lessons (unit_id, title, "order", challenges)
+values (3, '復習: 条件分岐', 4, '[
+  {
+    "type": "LEARN",
+    "content": "# Unit 3 の復習\\n\\n## 学んだこと\\n- if文で条件分岐\\n- else と elif で複数分岐\\n- 比較演算子（==, !=, <, >, and, or）"
+  },
+  {
+    "type": "SELECT",
+    "question": "\"AかつB\" を表す論理演算子は？",
+    "options": ["and", "or", "not"],
+    "correctOption": "and"
+  },
+  {
+    "type": "SELECT",
+    "question": "if x == 5: の意味は？",
+    "options": ["x に 5 を代入", "x が 5 と等しいかチェック", "x から 5 を引く"],
+    "correctOption": "x が 5 と等しいかチェック"
+  },
+  {
+    "type": "CODE",
+    "question": "変数 `age` が 18 以上なら \"成人\" と表示するコードを書いてください。",
+    "initialCode": "age = 20\\n# 条件分岐を書こう\\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+-- Unit 4 復習レッスン
+insert into lessons (unit_id, title, "order", challenges)
+values (4, '復習: ループ', 4, '[
+  {
+    "type": "LEARN",
+    "content": "# Unit 4 の復習\\n\\n## 学んだこと\\n- for ループと range()\\n- while ループ\\n- break と continue"
+  },
+  {
+    "type": "SELECT",
+    "question": "range(5) が生成する数値は？",
+    "options": ["1, 2, 3, 4, 5", "0, 1, 2, 3, 4", "0, 1, 2, 3, 4, 5"],
+    "correctOption": "0, 1, 2, 3, 4"
+  },
+  {
+    "type": "SELECT",
+    "question": "ループを途中で終了するのは？",
+    "options": ["break", "continue", "stop"],
+    "correctOption": "break"
+  },
+  {
+    "type": "CODE",
+    "question": "for ループで 1 から 3 まで print してください。",
+    "initialCode": "# range() を使おう\\n",
+    "correctOption": "for"
+  }
+]'::jsonb);
+
+-- Unit 5 復習レッスン
+insert into lessons (unit_id, title, "order", challenges)
+values (5, '復習: リスト・コレクション', 4, '[
+  {
+    "type": "LEARN",
+    "content": "# Unit 5 の復習\\n\\n## 学んだこと\\n- リストの作成とインデックス\\n- append(), pop(), len()\\n- 辞書（dict）のキーと値"
+  },
+  {
+    "type": "SELECT",
+    "question": "リストの最初の要素を取得するインデックスは？",
+    "options": ["0", "1", "-1"],
+    "correctOption": "0"
+  },
+  {
+    "type": "SELECT",
+    "question": "辞書を作る記号は？",
+    "options": ["{ }", "[ ]", "( )"],
+    "correctOption": "{ }"
+  },
+  {
+    "type": "CODE",
+    "question": "リスト `fruits` を作り、\"りんご\" を追加して print してください。",
+    "initialCode": "fruits = []\\n# append() を使おう\\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+-- Unit 6 復習レッスン
+insert into lessons (unit_id, title, "order", challenges)
+values (6, '復習: 関数', 4, '[
+  {
+    "type": "LEARN",
+    "content": "# Unit 6 の復習\\n\\n## 学んだこと\\n- def で関数を定義\\n- 引数と戻り値（return）\\n- スコープ（ローカル変数とグローバル変数）"
+  },
+  {
+    "type": "SELECT",
+    "question": "関数を定義するキーワードは？",
+    "options": ["def", "func", "function"],
+    "correctOption": "def"
+  },
+  {
+    "type": "SELECT",
+    "question": "関数の中で定義した変数を何と呼ぶ？",
+    "options": ["ローカル変数", "グローバル変数", "仮引数"],
+    "correctOption": "ローカル変数"
+  },
+  {
+    "type": "CODE",
+    "question": "2つの数を足して結果を返す関数 `add` を作ってください。",
+    "initialCode": "# def add(a, b): を作ろう\\n",
+    "correctOption": "return"
   }
 ]'::jsonb);
 
