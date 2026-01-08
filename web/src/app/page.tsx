@@ -1,8 +1,15 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Code2, Flame, Trophy } from 'lucide-react';
+import { ArrowRight, Code2, Flame, Trophy, User } from 'lucide-react';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/server';
 
-export default function Home() {
+export default async function Home() {
+	// サーバーサイドでユーザー情報を取得
+	const supabase = await createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
 	return (
 		<div className="flex min-h-screen flex-col bg-background">
 			{/* Header */}
@@ -13,10 +20,30 @@ export default function Home() {
 						<span>CodePop</span>
 					</div>
 					<nav className="flex items-center gap-4">
-						<Button variant="ghost" asChild>
-							<Link href="/login">ログイン</Link>
-						</Button>
-						<Button>はじめる</Button>
+						{user ? (
+							// ログイン済みの場合
+							<>
+								<Button variant="ghost" asChild>
+									<Link href="/learn" className="flex items-center gap-2">
+										<User className="h-4 w-4" />
+										学習を続ける
+									</Link>
+								</Button>
+								<Button asChild>
+									<Link href="/learn">ダッシュボード</Link>
+								</Button>
+							</>
+						) : (
+							// 未ログインの場合
+							<>
+								<Button variant="ghost" asChild>
+									<Link href="/login">ログイン</Link>
+								</Button>
+								<Button asChild>
+									<Link href="/login">はじめる</Link>
+								</Button>
+							</>
+						)}
 					</nav>
 				</div>
 			</header>
@@ -36,12 +63,36 @@ export default function Home() {
 						</p>
 					</div>
 					<div className="flex gap-4">
-						<Button size="lg" className="gap-2 text-lg px-8 h-12">
-							今すぐ学習を始める <ArrowRight className="h-5 w-5" />
-						</Button>
-						<Button variant="outline" size="lg" className="h-12 text-lg">
-							カリキュラムを見る
-						</Button>
+						{user ? (
+							// ログイン済みの場合
+							<>
+								<Button size="lg" className="gap-2 text-lg px-8 h-12" asChild>
+									<Link href="/learn">
+										学習を続ける <ArrowRight className="h-5 w-5" />
+									</Link>
+								</Button>
+								<Button
+									variant="outline"
+									size="lg"
+									className="h-12 text-lg"
+									asChild
+								>
+									<Link href="/learn">進捗を確認</Link>
+								</Button>
+							</>
+						) : (
+							// 未ログインの場合
+							<>
+								<Button size="lg" className="gap-2 text-lg px-8 h-12" asChild>
+									<Link href="/login">
+										今すぐ学習を始める <ArrowRight className="h-5 w-5" />
+									</Link>
+								</Button>
+								<Button variant="outline" size="lg" className="h-12 text-lg">
+									カリキュラムを見る
+								</Button>
+							</>
+						)}
 					</div>
 
 					{/* Feature Grid */}
