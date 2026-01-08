@@ -12,6 +12,7 @@ interface CodeChallengeProps {
 	code: string;
 	onChange: (value: string) => void;
 	status: 'idle' | 'correct' | 'incorrect';
+	onHotkey?: () => void; // Ctrl+Enter to check
 }
 
 export function CodeChallenge({
@@ -20,6 +21,7 @@ export function CodeChallenge({
 	code,
 	onChange,
 	status,
+	onHotkey,
 }: CodeChallengeProps) {
 	// Set initial code if empty
 	useEffect(() => {
@@ -39,12 +41,13 @@ export function CodeChallenge({
 				{/* Editor Area */}
 				<div className="flex flex-col gap-2">
 					<div className="font-bold text-sm text-muted-foreground">
-						コードエディタ
+						コードエディタ (Ctrl+Enter で実行)
 					</div>
 					<CodeEditor
 						value={code}
 						onChange={onChange}
 						className="flex-1 min-h-[300px] border-2 shadow-sm"
+						onKeyDown={onHotkey}
 					/>
 				</div>
 

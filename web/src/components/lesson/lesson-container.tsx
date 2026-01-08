@@ -146,6 +146,7 @@ export function LessonContainer({
 						onSelectOption={setSelectedOption}
 						onCodeChange={setCode}
 						onLearnComplete={handleContinue}
+						onCodeHotkey={handleCheck}
 						status={status}
 					/>
 				</main>

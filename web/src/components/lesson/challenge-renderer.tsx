@@ -10,6 +10,7 @@ interface ChallengeRendererProps {
 	onSelectOption: (option: string) => void;
 	onCodeChange: (code: string) => void;
 	onLearnComplete?: () => void;
+	onCodeHotkey?: () => void; // For Ctrl+Enter in code challenges
 	status: 'idle' | 'correct' | 'incorrect';
 }
 
@@ -19,6 +20,7 @@ export function ChallengeRenderer({
 	onSelectOption,
 	onCodeChange,
 	onLearnComplete,
+	onCodeHotkey,
 	status,
 }: ChallengeRendererProps) {
 	if (!challenge) return null;
@@ -49,6 +51,7 @@ export function ChallengeRenderer({
 					code={sessionState.code}
 					onChange={onCodeChange}
 					status={status}
+					onHotkey={onCodeHotkey}
 				/>
 			);
 		default:
