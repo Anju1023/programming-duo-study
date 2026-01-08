@@ -70,7 +70,11 @@ export function MarkdownView({ content, className }: MarkdownViewProps) {
 							{...props}
 						/>
 					),
-					code: ({ className, children, ...props }: any) => {
+					code: ({
+						className,
+						children,
+						...props
+					}: React.HTMLAttributes<HTMLElement>) => {
 						const match = /language-(\w+)/.exec(className || '');
 						const isInline =
 							!match &&

@@ -11,7 +11,9 @@ export function useSoundEffects() {
 	const getAudioContext = useCallback(() => {
 		if (!audioContextRef.current) {
 			const AudioContextClass =
-				window.AudioContext || (window as any).webkitAudioContext;
+				window.AudioContext ||
+				(window as unknown as { webkitAudioContext: typeof AudioContext })
+					.webkitAudioContext;
 			if (AudioContextClass) {
 				audioContextRef.current = new AudioContextClass();
 			}
@@ -33,7 +35,7 @@ export function useSoundEffects() {
 		const now = ctx.currentTime;
 
 		notes.forEach((freq, i) => {
-			const db = -10; // Volume
+			// Volume handled by gain
 			const osc = ctx.createOscillator();
 			const gain = ctx.createGain();
 

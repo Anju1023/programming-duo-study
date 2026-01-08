@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Code2 } from 'lucide-react';
 
 // Wrapper to match useActionState signature
-async function loginAction(prevState: any, formData: FormData) {
+async function loginAction(prevState: unknown, formData: FormData) {
 	return await login(formData);
 }
 
-async function signupAction(prevState: any, formData: FormData) {
+async function signupAction(prevState: unknown, formData: FormData) {
 	return await signup(formData);
 }
 

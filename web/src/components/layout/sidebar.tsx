@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Code2, Trophy, User, BookOpen, Heart, Gem, Flame } from 'lucide-react';
+import { Trophy, User, BookOpen, Heart, Gem, Flame } from 'lucide-react';
 import { useUserStore } from '@/lib/store/user-store';
 import { Logo } from '@/components/ui/logo';
 import { cn } from '@/lib/utils';

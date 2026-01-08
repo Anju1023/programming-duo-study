@@ -9,6 +9,15 @@ import React, {
 } from 'react';
 import Script from 'next/script';
 
+interface PyodideInterface {
+	runPython: (code: string) => any;
+	runPythonAsync: (code: string) => Promise<any>;
+	setStdout(options: { batched: (msg: string) => void }): void;
+	setStderr(options: { batched: (msg: string) => void }): void;
+	globals: any;
+	registerJsModule(name: string, module: any): void;
+}
+
 interface PythonContextType {
 	runPython: (code: string) => Promise<any>;
 	stdout: string[];
@@ -22,8 +31,8 @@ const PythonContext = createContext<PythonContextType | undefined>(undefined);
 
 declare global {
 	interface Window {
-		loadPyodide: (config: any) => Promise<any>;
-		pyodide: any;
+		loadPyodide: (config: { indexURL: string }) => Promise<PyodideInterface>;
+		pyodide: PyodideInterface;
 	}
 }
 
@@ -32,7 +41,7 @@ export function PythonProvider({ children }: { children: React.ReactNode }) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [stdout, setStdout] = useState<string[]>([]);
 	const [stderr, setStderr] = useState<string[]>([]);
-	const [pyodide, setPyodide] = useState<any>(null);
+	const [pyodide, setPyodide] = useState<PyodideInterface | null>(null);
 
 	/* eslint-disable react-hooks/exhaustive-deps */
 	useEffect(() => {
@@ -55,13 +64,6 @@ export function PythonProvider({ children }: { children: React.ReactNode }) {
 			}
 
 			if (pyodideInstance) {
-				// Redirect stdout/stderr (re-attaching might duplicate if not careful, but setStdout overwrites?)
-				// Actually setStdout is a custom function on Pyodide? No, usually we pass it to config or set it.
-				// Wait, 'setStdout' isn't a standard Pyodide API on the instance?
-				// Standard is: loadPyodide({ stdout: ... }) OR pyodide.setStdout(...)
-
-				// Pyodide v0.20+: pyodide.setStdout({ batched: ... }) is correct.
-
 				try {
 					pyodideInstance.setStdout({
 						batched: (msg: string) => setStdout((prev) => [...prev, msg]),

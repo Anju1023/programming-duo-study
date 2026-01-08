@@ -1,0 +1,24 @@
+
+> web@0.1.0 build
+> next build
+
+▲ Next.js 16.1.1 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 8.0s
+  Running TypeScript ...
+Failed to compile.
+
+./src/components/lesson/challenge-renderer.tsx:70:6
+Type error: Type 'string | undefined' is not assignable to type 'string | null'.
+  Type 'undefined' is not assignable to type 'string | null'.
+
+[0m [90m 68 |[39m 					question[33m=[39m{challenge[33m.[39mquestion [33m||[39m [32m''[39m}
+ [90m 69 |[39m 					options[33m=[39m{challenge[33m.[39moptions [33m||[39m []}
+[31m[1m>[22m[39m[90m 70 |[39m 					selectedOption[33m=[39m{sessionState[33m.[39mselectedOption}
+ [90m    |[39m 					[31m[1m^[22m[39m
+ [90m 71 |[39m 					onSelect[33m=[39m{onSelectOption}
+ [90m 72 |[39m 					status[33m=[39m{status}
+ [90m 73 |[39m 				[33m/[39m[33m>[39m[0m
+Next.js build worker exited with code: 1 and signal: null

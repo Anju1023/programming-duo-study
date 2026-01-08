@@ -1,5 +1,11 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Nunito, M_PLUS_Rounded_1c } from 'next/font/google';
+import {
+	Geist,
+	Geist_Mono,
+	Nunito,
+	M_PLUS_Rounded_1c,
+	Zen_Maru_Gothic,
+} from 'next/font/google';
 import './globals.css';
 
 const geistSans = Geist({
@@ -25,33 +31,41 @@ const mplus = M_PLUS_Rounded_1c({
 	display: 'swap',
 });
 
+const zenMaru = Zen_Maru_Gothic({
+	weight: ['300', '400', '500', '700', '900'],
+	subsets: ['latin'],
+	variable: '--font-zen-maru',
+	display: 'swap',
+});
+
 import { PythonProvider } from '@/components/providers/python-provider';
 import { HeartProvider } from '@/components/providers/heart-provider';
 
 export const metadata: Metadata = {
-	title: 'CodePop - ゲーム感覚でプログラミングを学ぼう',
+	title: '木漏れ日コード | あなたのペースでプログラミングを',
 	description:
-		'ゲーム感覚で楽しくプログラミングを学習。1日5分から始められる、初心者にやさしいステップバイステップ解説付き。',
+		'あせらず、ゆっくり。1日5分から始める優しいプログラミング習慣。挫折した経験があるあなたへ。',
 	keywords: [
 		'プログラミング学習',
 		'初心者',
-		'ゲーミフィケーション',
+		'癒やし',
 		'無料',
 		'オンライン学習',
+		'Python',
 	],
-	authors: [{ name: 'CodePop Team' }],
+	authors: [{ name: 'Komorebi Code Team' }],
 	openGraph: {
-		title: 'CodePop - ゲーム感覚でプログラミングを学ぼう',
+		title: '木漏れ日コード | あなたのペースでプログラミングを',
 		description:
-			'ゲーム感覚で楽しくプログラミングを学習。初心者にやさしいステップバイステップ解説付き。',
+			'あせらず、ゆっくり。1日5分から始める優しいプログラミング習慣。',
 		type: 'website',
 		locale: 'ja_JP',
 	},
 	twitter: {
 		card: 'summary_large_image',
-		title: 'CodePop - ゲーム感覚でプログラミングを学ぼう',
+		title: '木漏れ日コード | あなたのペースでプログラミングを',
 		description:
-			'ゲーム感覚で楽しくプログラミングを学習。初心者にやさしいステップバイステップ解説付き。',
+			'あせらず、ゆっくり。1日5分から始める優しいプログラミング習慣。',
 	},
 };
 
@@ -63,7 +77,7 @@ export default function RootLayout({
 	return (
 		<html lang="ja" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} ${mplus.variable} antialiased font-sans`}
+				className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} ${mplus.variable} ${zenMaru.variable} antialiased font-sans`}
 			>
 				<HeartProvider>
 					<PythonProvider>{children}</PythonProvider>

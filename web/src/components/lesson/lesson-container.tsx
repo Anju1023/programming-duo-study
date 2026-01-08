@@ -9,12 +9,13 @@ import { useRouter } from 'next/navigation';
 import { usePython } from '@/hooks/use-python';
 import { deductHeart, completeLesson } from '@/actions/user-progress';
 import { useSoundEffects } from '@/hooks/use-sound';
+import { Lesson } from '@/types/course';
 
 export function LessonContainer({
 	lesson,
 	initialHearts,
 }: {
-	lesson: any;
+	lesson: Lesson;
 	initialHearts: number;
 }) {
 	const router = useRouter();
@@ -192,7 +193,7 @@ export function LessonContainer({
 					)}
 					<ChallengeRenderer
 						challenge={currentChallenge}
-						sessionState={{ selectedOption, code }}
+						sessionState={{ selectedOption: selectedOption ?? undefined, code }}
 						onSelectOption={setSelectedOption}
 						onCodeChange={setCode}
 						onLearnComplete={handleContinue}
