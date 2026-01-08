@@ -52,7 +52,7 @@
 
 ### 3-1: Google ログイン（✅ 実装済み）
 
-コードを確認したところ、すでに `loginWithGoogle()` が実装されている！  
+コードを確認したところ、すでに `loginWithGoogle()` が実装されている！
 ただし、Supabase ダッシュボードで Google OAuth プロバイダーの設定が必要。
 
 - [ ] Supabase Dashboard で Google プロバイダーを有効化
