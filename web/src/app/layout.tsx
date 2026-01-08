@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 import { PythonProvider } from '@/components/providers/python-provider';
 
 export const metadata: Metadata = {
-	title: 'PyLearn - ゲーム感覚でPythonを学ぼう',
+	title: 'CodePop - ゲーム感覚でPythonを学ぼう',
 	description:
 		'Duolingo風のゲーミフィケーションでPythonプログラミングを楽しく学習。初心者でも安心のステップバイステップ解説付き。',
 	keywords: [
@@ -25,9 +25,9 @@ export const metadata: Metadata = {
 		'ゲーミフィケーション',
 		'無料',
 	],
-	authors: [{ name: 'PyLearn Team' }],
+	authors: [{ name: 'CodePop Team' }],
 	openGraph: {
-		title: 'PyLearn - ゲーム感覚でPythonを学ぼう',
+		title: 'CodePop - ゲーム感覚でPythonを学ぼう',
 		description:
 			'Duolingo風のゲーミフィケーションでPythonプログラミングを楽しく学習。',
 		type: 'website',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 	},
 	twitter: {
 		card: 'summary_large_image',
-		title: 'PyLearn - ゲーム感覚でPythonを学ぼう',
+		title: 'CodePop - ゲーム感覚でPythonを学ぼう',
 		description:
 			'Duolingo風のゲーミフィケーションでPythonプログラミングを楽しく学習。',
 	},
