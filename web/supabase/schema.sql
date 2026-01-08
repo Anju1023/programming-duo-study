@@ -505,7 +505,7 @@ insert into lessons (unit_id, title, "order", challenges)
 values (1, '復習: Python入門', 4, '[
   {
     "type": "LEARN",
-    "content": "# Unit 1 の復習\\n\\nここまで学んだことを復習しましょう！\\n\\n## 学んだこと\\n- `print()` で文字を表示\\n- 変数にデータを保存\\n- 四則演算（+, -, *, /）\\n\\n準備はいい？"
+    "content": "# Unit 1 の復習\n\nここまで学んだことを復習しましょう！\n\n## 学んだこと\n- `print()` で文字を表示\n- 変数にデータを保存\n- 四則演算（+, -, *, /）\n\n準備はいい？"
   },
   {
     "type": "SELECT",
@@ -522,7 +522,7 @@ values (1, '復習: Python入門', 4, '[
   {
     "type": "CODE",
     "question": "変数 `greeting` に \"Hello\" を入れて print してください。",
-    "initialCode": "# 変数を作って表示しよう\\n",
+    "initialCode": "# 変数を作って表示しよう\n",
     "correctOption": "print"
   },
   {
@@ -538,7 +538,7 @@ insert into lessons (unit_id, title, "order", challenges)
 values (2, '復習: データ型と操作', 4, '[
   {
     "type": "LEARN",
-    "content": "# Unit 2 の復習\\n\\n## 学んだこと\\n- f-string で変数を文字列に埋め込む\\n- 余り演算子 `%`\\n- データ型（int, str, float）と型変換"
+    "content": "# Unit 2 の復習\n\n## 学んだこと\n- f-string で変数を文字列に埋め込む\n- 余り演算子 `%`\n- データ型（int, str, float）と型変換"
   },
   {
     "type": "SELECT",
@@ -555,7 +555,7 @@ values (2, '復習: データ型と操作', 4, '[
   {
     "type": "CODE",
     "question": "文字列 \"100\" を整数に変換して、50 を足した結果を print してください。",
-    "initialCode": "num_str = \"100\"\\n# 型変換して計算しよう\\n",
+    "initialCode": "num_str = \"100\"\n# 型変換して計算しよう\n",
     "correctOption": "print"
   }
 ]'::jsonb);
@@ -565,7 +565,7 @@ insert into lessons (unit_id, title, "order", challenges)
 values (3, '復習: 条件分岐', 4, '[
   {
     "type": "LEARN",
-    "content": "# Unit 3 の復習\\n\\n## 学んだこと\\n- if文で条件分岐\\n- else と elif で複数分岐\\n- 比較演算子（==, !=, <, >, and, or）"
+    "content": "# Unit 3 の復習\n\n## 学んだこと\n- if文で条件分岐\n- else と elif で複数分岐\n- 比較演算子（==, !=, <, >, and, or）"
   },
   {
     "type": "SELECT",
@@ -582,7 +582,7 @@ values (3, '復習: 条件分岐', 4, '[
   {
     "type": "CODE",
     "question": "変数 `age` が 18 以上なら \"成人\" と表示するコードを書いてください。",
-    "initialCode": "age = 20\\n# 条件分岐を書こう\\n",
+    "initialCode": "age = 20\n# 条件分岐を書こう\n",
     "correctOption": "print"
   }
 ]'::jsonb);
@@ -592,7 +592,7 @@ insert into lessons (unit_id, title, "order", challenges)
 values (4, '復習: ループ', 4, '[
   {
     "type": "LEARN",
-    "content": "# Unit 4 の復習\\n\\n## 学んだこと\\n- for ループと range()\\n- while ループ\\n- break と continue"
+    "content": "# Unit 4 の復習\n\n## 学んだこと\n- for ループと range()\n- while ループ\n- break と continue"
   },
   {
     "type": "SELECT",
@@ -609,7 +609,7 @@ values (4, '復習: ループ', 4, '[
   {
     "type": "CODE",
     "question": "for ループで 1 から 3 まで print してください。",
-    "initialCode": "# range() を使おう\\n",
+    "initialCode": "# range() を使おう\n",
     "correctOption": "for"
   }
 ]'::jsonb);
@@ -619,7 +619,7 @@ insert into lessons (unit_id, title, "order", challenges)
 values (5, '復習: リスト・コレクション', 4, '[
   {
     "type": "LEARN",
-    "content": "# Unit 5 の復習\\n\\n## 学んだこと\\n- リストの作成とインデックス\\n- append(), pop(), len()\\n- 辞書（dict）のキーと値"
+    "content": "# Unit 5 の復習\n\n## 学んだこと\n- リストの作成とインデックス\n- append(), pop(), len()\n- 辞書（dict）のキーと値"
   },
   {
     "type": "SELECT",
@@ -636,7 +636,7 @@ values (5, '復習: リスト・コレクション', 4, '[
   {
     "type": "CODE",
     "question": "リスト `fruits` を作り、\"りんご\" を追加して print してください。",
-    "initialCode": "fruits = []\\n# append() を使おう\\n",
+    "initialCode": "fruits = []\n# append() を使おう\n",
     "correctOption": "print"
   }
 ]'::jsonb);
@@ -646,7 +646,7 @@ insert into lessons (unit_id, title, "order", challenges)
 values (6, '復習: 関数', 4, '[
   {
     "type": "LEARN",
-    "content": "# Unit 6 の復習\\n\\n## 学んだこと\\n- def で関数を定義\\n- 引数と戻り値（return）\\n- スコープ（ローカル変数とグローバル変数）"
+    "content": "# Unit 6 の復習\n\n## 学んだこと\n- def で関数を定義\n- 引数と戻り値（return）\n- スコープ（ローカル変数とグローバル変数）"
   },
   {
     "type": "SELECT",
@@ -663,10 +663,11 @@ values (6, '復習: 関数', 4, '[
   {
     "type": "CODE",
     "question": "2つの数を足して結果を返す関数 `add` を作ってください。",
-    "initialCode": "# def add(a, b): を作ろう\\n",
+    "initialCode": "# def add(a, b): を作ろう\n",
     "correctOption": "return"
   }
 ]'::jsonb);
+
 
 -- Backfill profiles for existing auth users (in case of DB reset)
 insert into public.profiles (id, email, username)
