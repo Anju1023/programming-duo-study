@@ -36,7 +36,7 @@ export default async function LearnPage() {
 	)?.id;
 
 	return (
-		<div className="flex flex-col items-center gap-8 py-8 w-full">
+		<div className="flex flex-col items-center gap-8 py-8 w-full px-4 md:px-8">
 			<ScrollController activeLessonId={scrollToLessonId} />
 			{/* Temporary Playground for Testing */}
 			<div className="w-full max-w-2xl bg-muted/20 p-6 rounded-xl border border-dashed border-primary/50">

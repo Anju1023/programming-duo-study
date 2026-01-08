@@ -74,7 +74,7 @@ export default async function Home() {
 
 			<main className="flex-1 flex flex-col items-center justify-center">
 				{/* Hero Section */}
-				<section className="container flex flex-col items-center gap-8 pb-12 pt-12 md:py-24 lg:py-32 text-center">
+				<section className="container flex flex-col items-center gap-8 pb-12 pt-12 md:py-24 lg:py-32 text-center px-6">
 					{/* Decorative Elements */}
 					<div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl -z-10 animate-pulse" />
 					<div
@@ -126,7 +126,7 @@ export default async function Home() {
 				</section>
 
 				{/* Feature Grid with more white space */}
-				<section className="container py-24 px-4 md:px-8">
+				<section className="container py-24 px-6 md:px-8">
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-12">
 						<div className="group flex flex-col items-center text-center p-8 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-3xl border border-slate-200/50 dark:border-slate-800/50 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
 							<div className="p-5 bg-orange-100 dark:bg-orange-900/30 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
