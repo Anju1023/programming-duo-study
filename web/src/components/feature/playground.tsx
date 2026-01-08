@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CodeEditor } from '@/components/code/code-editor';
+import { CodeEditor } from '@/components/editor/code-editor';
 import { Terminal } from '@/components/code/terminal';
 import { usePython } from '@/hooks/use-python';
 import { Button } from '@/components/ui/button';
@@ -46,7 +46,7 @@ export const PythonPlayground = () => {
 				value={code}
 				onChange={setCode}
 				className="min-h-[250px] shadow-sm"
-				onKeyDown={handleHotkey}
+				onRunCode={handleHotkey}
 			/>
 			<Terminal className="min-h-[150px]" />
 		</div>

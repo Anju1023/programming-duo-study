@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Nunito, M_PLUS_Rounded_1c } from 'next/font/google';
 import './globals.css';
 
 const geistSans = Geist({
@@ -12,7 +12,21 @@ const geistMono = Geist_Mono({
 	subsets: ['latin'],
 });
 
+const nunito = Nunito({
+	subsets: ['latin'],
+	variable: '--font-nunito',
+	display: 'swap',
+});
+
+const mplus = M_PLUS_Rounded_1c({
+	weight: ['400', '500', '700', '800'],
+	subsets: ['latin'],
+	variable: '--font-mplus',
+	display: 'swap',
+});
+
 import { PythonProvider } from '@/components/providers/python-provider';
+import { HeartProvider } from '@/components/providers/heart-provider';
 
 export const metadata: Metadata = {
 	title: 'CodePop - ゲーム感覚でプログラミングを学ぼう',
@@ -49,9 +63,11 @@ export default function RootLayout({
 	return (
 		<html lang="ja" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} ${mplus.variable} antialiased font-sans`}
 			>
-				<PythonProvider>{children}</PythonProvider>
+				<HeartProvider>
+					<PythonProvider>{children}</PythonProvider>
+				</HeartProvider>
 			</body>
 		</html>
 	);
