@@ -11,15 +11,30 @@ interface CodeEditorProps {
 	value: string;
 	onChange: (value: string) => void;
 	className?: string;
+	onKeyDown?: (e: React.KeyboardEvent) => void;
 }
 
-export function CodeEditor({ value, onChange, className }: CodeEditorProps) {
+export function CodeEditor({
+	value,
+	onChange,
+	className,
+	onKeyDown,
+}: CodeEditorProps) {
+	const handleKeyDown = (e: React.KeyboardEvent) => {
+		// Only intercept Ctrl/Cmd+Enter, let everything else pass through
+		if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+			e.preventDefault();
+			onKeyDown?.(e);
+		}
+	};
+
 	return (
 		<div
 			className={cn(
 				'relative overflow-hidden rounded-lg border bg-[#272822] font-mono text-sm',
 				className
 			)}
+			onKeyDown={handleKeyDown}
 		>
 			<div className="absolute top-0 right-0 p-2 z-10 text-xs text-gray-500 font-bold select-none">
 				PYTHON 3
