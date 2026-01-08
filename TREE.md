@@ -2,7 +2,11 @@
 ```
 programming-duo-study
 ├─ design.md
+├─ docs
+│  └─ content-guide.md
+├─ request.md
 ├─ requirements.md
+├─ TREE.md
 └─ web
    ├─ components.json
    ├─ eslint.config.mjs
@@ -24,6 +28,7 @@ programming-duo-study
    │  │  ├─ (main)
    │  │  │  ├─ layout.tsx
    │  │  │  └─ learn
+   │  │  │     ├─ loading.tsx
    │  │  │     └─ page.tsx
    │  │  ├─ auth
    │  │  │  └─ callback
@@ -33,6 +38,7 @@ programming-duo-study
    │  │  ├─ layout.tsx
    │  │  ├─ lesson
    │  │  │  ├─ layout.tsx
+   │  │  │  ├─ loading.tsx
    │  │  │  └─ [id]
    │  │  │     └─ page.tsx
    │  │  ├─ login
@@ -51,23 +57,30 @@ programming-duo-study
    │  │  │  └─ sidebar.tsx
    │  │  ├─ learn
    │  │  │  ├─ lesson-node.tsx
+   │  │  │  ├─ scroll-controller.tsx
    │  │  │  └─ unit-section.tsx
    │  │  ├─ lesson
    │  │  │  ├─ challenge-renderer.tsx
    │  │  │  ├─ code-challenge.tsx
    │  │  │  ├─ footer.tsx
    │  │  │  ├─ header.tsx
+   │  │  │  ├─ lesson-complete-modal.tsx
+   │  │  │  ├─ lesson-container.tsx
+   │  │  │  ├─ lesson-instruction.tsx
    │  │  │  └─ quiz-challenge.tsx
    │  │  ├─ providers
    │  │  │  └─ python-provider.tsx
    │  │  └─ ui
    │  │     ├─ button.tsx
+   │  │     ├─ dialog.tsx
+   │  │     ├─ markdown-view.tsx
    │  │     ├─ progress.tsx
    │  │     └─ scroll-area.tsx
    │  ├─ db
    │  │  └─ queries.ts
    │  ├─ hooks
-   │  │  └─ use-python.ts
+   │  │  ├─ use-python.ts
+   │  │  └─ use-sound.ts
    │  ├─ lib
    │  │  ├─ supabase
    │  │  │  ├─ client.ts

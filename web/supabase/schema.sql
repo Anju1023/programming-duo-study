@@ -157,11 +157,14 @@ values (1, '数値の計算', 3, '[
 insert into units (course_id, title, description, "order")
 values (1, 'データ型と操作', '文字列や数値を自由自在に操る魔法を覚えよう！', 2);
 
--- Unit 2 Lessons (assuming Unit ID 2 relies on serial, but hardcoding 2 is risky if we run multiple times without reset. 
--- However, since this is a reset script (drop tables at top), ID 2 is safe to assume for the second insert.)
+-- Unit 2 Lessons (with LEARN slides added per content-guide.md rules)
 
 insert into lessons (unit_id, title, "order", challenges)
 values (2, '文字列の魔法', 1, '[
+  {
+    "type": "LEARN",
+    "content": "# f-string（エフストリング）を覚えよう！\n\n変数の値を文字列の中に埋め込みたいとき、**f-string** を使います。\n\n```python\nname = \"太郎\"\nprint(f\"こんにちは、{name}さん！\")\n```\n\n実行結果: `こんにちは、太郎さん！`\n\n## ポイント\n- 文字列の前に `f` を付ける\n- 変数は `{ }` で囲む\n- 計算も埋め込める: `f\"1 + 2 = {1 + 2}\"`"
+  },
   {
     "type": "SELECT",
     "question": "Pythonで変数の値を文字列の中に埋め込む（f-string）正しい書き方は？",
@@ -171,13 +174,17 @@ values (2, '文字列の魔法', 1, '[
   {
     "type": "CODE",
     "question": "変数 `food` に \"おにぎり\" を入れて、f-stringを使って \"好きな食べ物は おにぎり です\" と表示してください。",
-    "initialCode": "food = \"おにぎり\"\n",
+    "initialCode": "food = \"おにぎり\"\n# f-string を使って print しよう\n",
     "correctOption": "print"
   }
 ]'::jsonb);
 
 insert into lessons (unit_id, title, "order", challenges)
 values (2, '数値の冒険', 2, '[
+  {
+    "type": "LEARN",
+    "content": "# 余りを求める演算子 %\n\n割り算の **余り** を求めるには `%`（パーセント記号）を使います。\n\n```python\nprint(7 % 3)  # 結果: 1\nprint(10 % 5) # 結果: 0\nprint(9 % 4)  # 結果: 1\n```\n\n## どんな時に使う？\n- 偶数・奇数の判定（`x % 2 == 0` なら偶数）\n- 繰り返し処理\n- ゲームのスコア計算"
+  },
   {
     "type": "SELECT",
     "question": "割り算の「余り」を求める記号は？ (例: 7 ÷ 3 = 2 余り 1)",
@@ -195,6 +202,10 @@ values (2, '数値の冒険', 2, '[
 insert into lessons (unit_id, title, "order", challenges)
 values (2, '型の迷宮', 3, '[
   {
+    "type": "LEARN",
+    "content": "# データ型って何？\n\nPythonでは、データにはそれぞれ **型（タイプ）** があります。\n\n## 主な型\n- `int` - 整数（1, 42, -10）\n- `float` - 小数（3.14, 0.5）\n- `str` - 文字列（\"Hello\", \"Python\"）\n\n## 型を調べる\n```python\nprint(type(42))      # <class \"int\">\nprint(type(3.14))    # <class \"float\">\nprint(type(\"Hello\")) # <class \"str\">\n```\n\n## 型変換\n```python\nint(\"20\")   # 文字列 → 整数\nstr(100)    # 整数 → 文字列\nfloat(\"3.5\") # 文字列 → 小数\n```"
+  },
+  {
     "type": "SELECT",
     "question": "整数 (Integer) を表す型はどれ？",
     "options": ["int", "str", "float"],
@@ -203,8 +214,272 @@ values (2, '型の迷宮', 3, '[
   {
     "type": "CODE",
     "question": "変数 `age` (文字列の \"20\") を整数に変換して、それに 5 を足した数を print してください。",
-    "initialCode": "age = \"20\"\n# ここで整数に変換して計算\n",
+    "initialCode": "age = \"20\"\n# int() で整数に変換して計算しよう\n",
     "correctOption": "print"
+  }
+]'::jsonb);
+
+-- =============================================
+-- Unit 3: 条件分岐
+-- =============================================
+insert into units (course_id, title, description, "order")
+values (1, '条件分岐', 'if文を使ってプログラムに判断力を与えよう！', 3);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (3, 'if文の基本', 1, '[
+  {
+    "type": "LEARN",
+    "content": "# if文で条件分岐しよう！\n\n**if文** を使うと、条件によって実行する処理を変えられます。\n\n```python\nage = 20\nif age >= 18:\n    print(\"大人です\")\n```\n\n## ポイント\n- `if 条件:` の後に **コロン（:）** を付ける\n- 実行する処理は **インデント**（スペース4つ）を入れる\n- 条件が True なら実行、False ならスキップ"
+  },
+  {
+    "type": "SELECT",
+    "question": "if文の書き方で正しいのはどれ？",
+    "options": ["if x == 10:", "if x == 10", "if (x == 10)"],
+    "correctOption": "if x == 10:"
+  },
+  {
+    "type": "CODE",
+    "question": "変数 `score` が 80 以上なら \"合格\" と表示するコードを書いてください。",
+    "initialCode": "score = 85\n# if文を書こう\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (3, 'else と elif', 2, '[
+  {
+    "type": "LEARN",
+    "content": "# else と elif で複数の分岐を作ろう！\n\n## else - 「それ以外」\n```python\nage = 15\nif age >= 18:\n    print(\"大人です\")\nelse:\n    print(\"子供です\")\n```\n\n## elif - 「そうでなければ、もし〜なら」\n```python\nscore = 75\nif score >= 90:\n    print(\"優秀！\")\nelif score >= 60:\n    print(\"合格！\")\nelse:\n    print(\"がんばろう！\")\n```\n\n`elif` は何個でも追加できます！"
+  },
+  {
+    "type": "SELECT",
+    "question": "elif の意味として正しいのは？",
+    "options": ["そうでなければ、もし〜なら", "常に実行", "ループする"],
+    "correctOption": "そうでなければ、もし〜なら"
+  },
+  {
+    "type": "CODE",
+    "question": "変数 `temp` が 30以上なら \"暑い\"、20以上なら \"快適\"、それ以外なら \"寒い\" と表示してください。",
+    "initialCode": "temp = 25\n# if, elif, else を使おう\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (3, '比較演算子', 3, '[
+  {
+    "type": "LEARN",
+    "content": "# 比較演算子をマスターしよう！\n\n条件を作るときに使う記号です。\n\n## 比較演算子\n- `==` 等しい\n- `!=` 等しくない\n- `<` より小さい\n- `>` より大きい\n- `<=` 以下\n- `>=` 以上\n\n## 論理演算子\n- `and` - 両方 True なら True\n- `or` - どちらか True なら True\n- `not` - True と False を反転\n\n```python\nif age >= 18 and age < 65:\n    print(\"働き盛り！\")\n```"
+  },
+  {
+    "type": "SELECT",
+    "question": "「等しくない」ことを表す演算子は？",
+    "options": ["!=", "==", "<>"],
+    "correctOption": "!="
+  },
+  {
+    "type": "CODE",
+    "question": "変数 `x` が 10以上 かつ 20以下 なら \"範囲内\" と表示してください。",
+    "initialCode": "x = 15\n# and を使って条件を書こう\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+-- =============================================
+-- Unit 4: ループ
+-- =============================================
+insert into units (course_id, title, description, "order")
+values (1, 'ループ', '繰り返し処理で効率的なプログラムを作ろう！', 4);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (4, 'for ループ', 1, '[
+  {
+    "type": "LEARN",
+    "content": "# for ループで繰り返そう！\n\n同じ処理を何度も繰り返すときは **for ループ** を使います。\n\n```python\nfor i in range(5):\n    print(i)\n# 結果: 0, 1, 2, 3, 4\n```\n\n## range() の使い方\n- `range(5)` - 0から4まで\n- `range(1, 6)` - 1から5まで\n- `range(0, 10, 2)` - 0から8まで2刻み\n\n## リストをループ\n```python\nfruits = [\"りんご\", \"みかん\", \"ぶどう\"]\nfor fruit in fruits:\n    print(fruit)\n```"
+  },
+  {
+    "type": "SELECT",
+    "question": "range(3) で生成される数値は？",
+    "options": ["0, 1, 2", "1, 2, 3", "0, 1, 2, 3"],
+    "correctOption": "0, 1, 2"
+  },
+  {
+    "type": "CODE",
+    "question": "for ループを使って 1 から 5 までの数字を print してください。",
+    "initialCode": "# range() を使おう\n",
+    "correctOption": "for"
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (4, 'while ループ', 2, '[
+  {
+    "type": "LEARN",
+    "content": "# while ループで条件が True の間繰り返す！\n\n**while ループ** は条件が True の間、処理を繰り返します。\n\n```python\ncount = 0\nwhile count < 3:\n    print(count)\n    count += 1\n# 結果: 0, 1, 2\n```\n\n## 注意！無限ループ\n条件が永遠に True だと止まらなくなります！\n\n```python\n# 危険な例（実行しないで！）\nwhile True:\n    print(\"永遠に続く...\")\n```"
+  },
+  {
+    "type": "SELECT",
+    "question": "while ループが終了する条件は？",
+    "options": ["条件が False になったとき", "条件が True になったとき", "3回繰り返したとき"],
+    "correctOption": "条件が False になったとき"
+  },
+  {
+    "type": "CODE",
+    "question": "while ループを使って 5 から 1 までカウントダウンして print してください。",
+    "initialCode": "count = 5\n# while を使ってカウントダウン\n",
+    "correctOption": "while"
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (4, 'break と continue', 3, '[
+  {
+    "type": "LEARN",
+    "content": "# break と continue でループを制御！\n\n## break - ループを途中で終了\n```python\nfor i in range(10):\n    if i == 5:\n        break\n    print(i)\n# 結果: 0, 1, 2, 3, 4\n```\n\n## continue - その回だけスキップ\n```python\nfor i in range(5):\n    if i == 2:\n        continue\n    print(i)\n# 結果: 0, 1, 3, 4（2がスキップ）\n```"
+  },
+  {
+    "type": "SELECT",
+    "question": "ループを途中で完全に抜けるのは？",
+    "options": ["break", "continue", "exit"],
+    "correctOption": "break"
+  },
+  {
+    "type": "CODE",
+    "question": "1から10までループし、5になったらループを終了するコードを書いてください。",
+    "initialCode": "# break を使おう\n",
+    "correctOption": "break"
+  }
+]'::jsonb);
+
+-- =============================================
+-- Unit 5: リスト・コレクション
+-- =============================================
+insert into units (course_id, title, description, "order")
+values (1, 'リスト・コレクション', '複数のデータをまとめて管理しよう！', 5);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (5, 'リストの基本', 1, '[
+  {
+    "type": "LEARN",
+    "content": "# リストで複数のデータを管理しよう！\n\n**リスト** は複数のデータを順番に保存できる箱です。\n\n```python\nfruits = [\"りんご\", \"みかん\", \"ぶどう\"]\nprint(fruits[0])  # りんご\nprint(fruits[1])  # みかん\nprint(fruits[2])  # ぶどう\n```\n\n## ポイント\n- `[ ]` で囲む\n- 要素はカンマ `,` で区切る\n- インデックスは **0 から始まる**\n- `fruits[-1]` で最後の要素を取得"
+  },
+  {
+    "type": "SELECT",
+    "question": "リストの最初の要素を取得するインデックスは？",
+    "options": ["0", "1", "-1"],
+    "correctOption": "0"
+  },
+  {
+    "type": "CODE",
+    "question": "リスト `colors` を作って \"赤\", \"青\", \"緑\" を入れ、2番目の要素を print してください。",
+    "initialCode": "# リストを作ろう\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (5, 'リストの操作', 2, '[
+  {
+    "type": "LEARN",
+    "content": "# リストを操作しよう！\n\n## 要素の追加\n```python\nfruits = [\"りんご\"]\nfruits.append(\"みかん\")\nprint(fruits)  # [\"りんご\", \"みかん\"]\n```\n\n## 要素の削除\n```python\nfruits.pop()     # 最後を削除\nfruits.pop(0)    # 指定位置を削除\n```\n\n## 長さを調べる\n```python\nprint(len(fruits))  # 要素数\n```\n\n## 要素の変更\n```python\nfruits[0] = \"バナナ\"\n```"
+  },
+  {
+    "type": "SELECT",
+    "question": "リストに要素を追加するメソッドは？",
+    "options": ["append()", "add()", "push()"],
+    "correctOption": "append()"
+  },
+  {
+    "type": "CODE",
+    "question": "空のリスト `items` を作り、\"ペン\" と \"ノート\" を追加して print してください。",
+    "initialCode": "items = []\n# append() で追加しよう\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (5, '辞書（dict）', 3, '[
+  {
+    "type": "LEARN",
+    "content": "# 辞書でキーと値をペアで管理！\n\n**辞書（dict）** はキーと値のペアでデータを管理します。\n\n```python\nuser = {\n    \"name\": \"太郎\",\n    \"age\": 20,\n    \"city\": \"東京\"\n}\nprint(user[\"name\"])  # 太郎\n```\n\n## 値の追加・変更\n```python\nuser[\"email\"] = \"taro@example.com\"\nuser[\"age\"] = 21\n```\n\n## キーの確認\n```python\nprint(\"name\" in user)  # True\n```"
+  },
+  {
+    "type": "SELECT",
+    "question": "辞書を作るときに使う記号は？",
+    "options": ["{ }", "[ ]", "( )"],
+    "correctOption": "{ }"
+  },
+  {
+    "type": "CODE",
+    "question": "辞書 `book` を作り、\"title\" に \"Python入門\"、\"price\" に 2000 を入れて print してください。",
+    "initialCode": "# 辞書を作ろう\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+-- =============================================
+-- Unit 6: 関数
+-- =============================================
+insert into units (course_id, title, description, "order")
+values (1, '関数', '自分だけの命令を作って再利用しよう！', 6);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (6, '関数の定義', 1, '[
+  {
+    "type": "LEARN",
+    "content": "# 関数を作ってみよう！\n\n**関数** は処理をまとめて名前を付けたものです。何度でも呼び出せます！\n\n```python\ndef greet():\n    print(\"こんにちは！\")\n\ngreet()  # こんにちは！\ngreet()  # こんにちは！\n```\n\n## ポイント\n- `def 関数名():` で定義\n- 最後に **コロン（:）** を付ける\n- 処理は **インデント** する\n- `関数名()` で呼び出す"
+  },
+  {
+    "type": "SELECT",
+    "question": "関数を定義するキーワードは？",
+    "options": ["def", "func", "function"],
+    "correctOption": "def"
+  },
+  {
+    "type": "CODE",
+    "question": "\"おはよう！\" と表示する関数 `morning` を作って呼び出してください。",
+    "initialCode": "# def で関数を定義しよう\n",
+    "correctOption": "def"
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (6, '引数と戻り値', 2, '[
+  {
+    "type": "LEARN",
+    "content": "# 引数と戻り値を使おう！\n\n## 引数 - 関数に値を渡す\n```python\ndef greet(name):\n    print(f\"こんにちは、{name}！\")\n\ngreet(\"太郎\")  # こんにちは、太郎！\n```\n\n## 戻り値 - 関数から値を返す\n```python\ndef add(a, b):\n    return a + b\n\nresult = add(3, 5)\nprint(result)  # 8\n```\n\n`return` で値を返すと、呼び出し元で使えます！"
+  },
+  {
+    "type": "SELECT",
+    "question": "関数から値を返すキーワードは？",
+    "options": ["return", "give", "output"],
+    "correctOption": "return"
+  },
+  {
+    "type": "CODE",
+    "question": "2つの数を受け取って掛け算した結果を返す関数 `multiply` を作ってください。",
+    "initialCode": "# def multiply(a, b): を作ろう\n",
+    "correctOption": "return"
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (6, 'スコープと変数', 3, '[
+  {
+    "type": "LEARN",
+    "content": "# スコープ - 変数の有効範囲\n\n変数には **スコープ（有効範囲）** があります。\n\n## ローカル変数\n関数の中で作った変数は、その関数の中だけで有効。\n```python\ndef test():\n    x = 10  # ローカル変数\n    print(x)\n\ntest()\n# print(x)  # エラー！外からは見えない\n```\n\n## グローバル変数\n関数の外で作った変数は、どこからでも見える。\n```python\nmessage = \"Hello\"\n\ndef show():\n    print(message)\n\nshow()  # Hello\n```"
+  },
+  {
+    "type": "SELECT",
+    "question": "関数の中で定義した変数を何と呼ぶ？",
+    "options": ["ローカル変数", "グローバル変数", "一時変数"],
+    "correctOption": "ローカル変数"
+  },
+  {
+    "type": "CODE",
+    "question": "グローバル変数 `name` を作り、関数 `hello` の中でそれを使って挨拶を print してください。",
+    "initialCode": "# グローバル変数と関数を作ろう\n",
+    "correctOption": "def"
   }
 ]'::jsonb);
 
