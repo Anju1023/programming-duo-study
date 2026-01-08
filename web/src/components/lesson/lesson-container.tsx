@@ -7,7 +7,7 @@ import { ChallengeRenderer } from '@/components/lesson/challenge-renderer';
 import { LessonCompleteModal } from '@/components/lesson/lesson-complete-modal';
 import { useRouter } from 'next/navigation';
 import { usePython } from '@/hooks/use-python';
-import { deductHeart, completeLesson } from '@/actions/user-progress';
+import { useSoundEffects } from '@/hooks/use-sound';
 
 export function LessonContainer({
 	lesson,
@@ -19,40 +19,14 @@ export function LessonContainer({
 	const router = useRouter();
 	console.log('Rendering LessonContainer. InitialHearts:', initialHearts);
 	const { runPython, stdout, clearOutput } = usePython(); // Destructure clearOutput
+	const { playSuccess, playError, playComplete } = useSoundEffects();
 
 	const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
-	const [hearts, setHearts] = useState(initialHearts);
-
-	const [showCompleteModal, setShowCompleteModal] = useState(false);
-	const [isCompleting, setIsCompleting] = useState(false);
-
-	// Sync hearts when initialHearts loads from DB (fixes "Always starts at 5" bug)
-	// Even with Server Component, this is good to keep if props update, though strictly not needed if checking pure mount.
-	useEffect(() => {
-		setHearts(initialHearts);
-	}, [initialHearts]);
-
-	const [status, setStatus] = useState<'idle' | 'correct' | 'incorrect'>(
-		'idle'
-	);
-	const [isValidating, setIsValidating] = useState(false);
-
-	// Clear output on mount and unmount
-	useEffect(() => {
-		clearOutput();
-		return () => clearOutput();
-	}, []);
-
-	// User Inputs
-	const [selectedOption, setSelectedOption] = useState<string | null>(null);
-	const [code, setCode] = useState('');
-
-	const challenges = lesson.challenges || [];
-	const currentChallenge = challenges[currentChallengeIndex];
-	const progressPercentage =
-		((currentChallengeIndex + 1) / challenges.length) * 100;
+	// ... existing state ...
 
 	const handleCheck = async () => {
+		if (!currentChallengeIndex && currentChallengeIndex !== 0) return;
+		const currentChallenge = challenges[currentChallengeIndex];
 		if (!currentChallenge) return;
 
 		setIsValidating(true);
@@ -85,9 +59,10 @@ export function LessonContainer({
 
 		if (isCorrect) {
 			setStatus('correct');
-			// Play Sound?
+			playSuccess();
 		} else {
 			setStatus('incorrect');
+			playError();
 			setHearts((prev) => Math.max(0, prev - 1));
 
 			// Server Action: Deduct Heart
@@ -95,8 +70,6 @@ export function LessonContainer({
 			deductHeart().catch((err) =>
 				console.error('Failed to deduct heart', err)
 			);
-
-			// Play Sound?
 		}
 	};
 
@@ -109,6 +82,7 @@ export function LessonContainer({
 			clearOutput(); // Clear output for next challenge
 		} else {
 			// Lesson Completed! Show modal
+			playComplete();
 			setShowCompleteModal(true);
 		}
 	};
