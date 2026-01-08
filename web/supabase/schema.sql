@@ -103,6 +103,10 @@ values (1, 'Python入門', 'Pythonの基本的な構文と変数の使い方を�
 insert into lessons (unit_id, title, "order", challenges)
 values (1, 'Hello World', 1, '[
   {
+    "type": "LEARN",
+    "content": "# Pythonの世界へようこそ！\nここでは **Python（パイソン）** というプログラミング言語を学びます。\n\nPythonで文字を表示するには `print()` という魔法の言葉（関数）を使います。\n\n`print(\"Python\")`\n\nこのように書くと、画面に **Python** と表示されます。\nさあ、やってみよう！"
+  },
+  {
     "type": "SELECT", 
     "question": "Pythonでテキストを表示するにはどうしますか？", 
     "options": ["console.log()", "print()", "echo"], 

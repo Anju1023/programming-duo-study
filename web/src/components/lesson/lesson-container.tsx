@@ -145,17 +145,21 @@ export function LessonContainer({
 						sessionState={{ selectedOption, code }}
 						onSelectOption={setSelectedOption}
 						onCodeChange={setCode}
+						onLearnComplete={handleContinue}
 						status={status}
 					/>
 				</main>
 
-				<LessonFooter
-					status={status}
-					isValidating={isValidating || isCompleting}
-					onCheck={handleCheck}
-					onContinue={handleContinue}
-					onRetry={handleRetry}
-				/>
+				{/* Hide footer for LEARN type as it has its own button */}
+				{currentChallenge?.type !== 'LEARN' && (
+					<LessonFooter
+						status={status}
+						isValidating={isValidating || isCompleting}
+						onCheck={handleCheck}
+						onContinue={handleContinue}
+						onRetry={handleRetry}
+					/>
+				)}
 			</div>
 			<LessonCompleteModal
 				open={showCompleteModal}
