@@ -21,8 +21,21 @@ export const PythonPlayground = () => {
 		await runPython(code);
 	};
 
+	// Hotkey: Ctrl+Enter or Cmd+Enter to run code
+	const handleKeyDown = (e: React.KeyboardEvent) => {
+		if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+			e.preventDefault();
+			if (isReady && !isLoading) {
+				handleRun();
+			}
+		}
+	};
+
 	return (
-		<div className="w-full max-w-3xl flex flex-col gap-4">
+		<div
+			className="w-full max-w-3xl flex flex-col gap-4"
+			onKeyDown={handleKeyDown}
+		>
 			<div className="flex items-center justify-between">
 				<h3 className="font-bold text-lg">Python Playground</h3>
 				<Button

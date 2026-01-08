@@ -117,6 +117,16 @@ values (1, 'Hello World', 1, '[
 insert into lessons (unit_id, title, "order", challenges)
 values (1, '変数の魔法', 2, '[
   {
+    "type": "LEARN",
+    "content": "# 変数ってなに？\n\n**変数**は、データを入れておく「箱」のようなものです。\n\n```python\nname = \"Python\"\n```\n\n上の例では `name` という箱に `\"Python\"` という文字を入れています。\n\n## 重要ポイント！\n\n- 文字列（テキスト）は必ず **クォート（\" \"）** で囲みます\n- 数字はクォートなしで書きます（例: `age = 20`）\n\nこれを覚えたら、変数マスターへの第一歩です！"
+  },
+  {
+    "type": "SELECT", 
+    "question": "文字列を変数に入れるとき、正しい書き方はどれ？",
+    "options": ["name = Python", "name = \"Python\"", "\"name\" = Python"],
+    "correctOption": "name = \"Python\""
+  },
+  {
     "type": "CODE",
     "question": "変数 `name` に \"プログラミング\" という文字を入れて、printしてください。",
     "initialCode": "# ここにコードを書いてね\nname = ",
@@ -126,6 +136,10 @@ values (1, '変数の魔法', 2, '[
 
 insert into lessons (unit_id, title, "order", challenges)
 values (1, '数値の計算', 3, '[
+  {
+    "type": "LEARN",
+    "content": "# Pythonで計算しよう！\n\nPythonは電卓のように計算ができます。\n\n```python\nprint(2 + 3)  # 足し算 → 5\nprint(10 - 4) # 引き算 → 6\nprint(3 * 4)  # 掛け算 → 12\nprint(8 / 2)  # 割り算 → 4.0\n```\n\n## 覚えておこう\n\n- 足し算: `+`\n- 引き算: `-`\n- 掛け算: `*`（アスタリスク）\n- 割り算: `/`（スラッシュ）\n\n数字はクォートで囲まなくてOK！"
+  },
   {
     "type": "SELECT", 
     "question": "Pythonで `print(2 + 3)` を実行するとどうなりますか？", 
