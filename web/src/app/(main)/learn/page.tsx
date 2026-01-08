@@ -42,7 +42,7 @@ export default async function LearnPage() {
 			<div className="w-full max-w-2xl bg-muted/20 p-6 rounded-xl border border-dashed border-primary/50">
 				<h2 className="text-xl font-bold mb-4 text-center flex items-center justify-center gap-2">
 					<FlaskConical className="h-6 w-6" />
-					Python 実験室
+					コード実験室
 				</h2>
 				<PythonPlayground />
 			</div>
