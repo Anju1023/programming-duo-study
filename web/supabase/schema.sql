@@ -136,6 +136,60 @@ values (1, '数値の計算', 3, '[
   }
 ]'::jsonb);
 
+insert into units (course_id, title, description, "order")
+values (1, 'データ型と操作', '文字列や数値を自由自在に操る魔法を覚えよう！', 2);
+
+-- Unit 2 Lessons (assuming Unit ID 2 relies on serial, but hardcoding 2 is risky if we run multiple times without reset. 
+-- However, since this is a reset script (drop tables at top), ID 2 is safe to assume for the second insert.)
+
+insert into lessons (unit_id, title, "order", challenges)
+values (2, '文字列の魔法', 1, '[
+  {
+    "type": "SELECT",
+    "question": "Pythonで変数の値を文字列の中に埋め込む（f-string）正しい書き方は？",
+    "options": ["f\"Hello {name}\"", "f\"Hello (name)\"", "\"Hello {name}\""],
+    "correctOption": "f\"Hello {name}\""
+  },
+  {
+    "type": "CODE",
+    "question": "変数 `food` に \"おにぎり\" を入れて、f-stringを使って \"好きな食べ物は おにぎり です\" と表示してください。",
+    "initialCode": "food = \"おにぎり\"\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (2, '数値の冒険', 2, '[
+  {
+    "type": "SELECT",
+    "question": "割り算の「余り」を求める記号は？ (例: 7 ÷ 3 = 2 余り 1)",
+    "options": ["%", "/", "#"],
+    "correctOption": "%"
+  },
+  {
+    "type": "CODE",
+    "question": "10 を 3 で割った「余り」を print してください。",
+    "initialCode": "# ヒント: % を使います\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
+insert into lessons (unit_id, title, "order", challenges)
+values (2, '型の迷宮', 3, '[
+  {
+    "type": "SELECT",
+    "question": "整数 (Integer) を表す型はどれ？",
+    "options": ["int", "str", "float"],
+    "correctOption": "int"
+  },
+  {
+    "type": "CODE",
+    "question": "変数 `age` (文字列の \"20\") を整数に変換して、それに 5 を足した数を print してください。",
+    "initialCode": "age = \"20\"\n# ここで整数に変換して計算\n",
+    "correctOption": "print"
+  }
+]'::jsonb);
+
 -- Backfill profiles for existing auth users (in case of DB reset)
 insert into public.profiles (id, email, username)
 select id, email, raw_user_meta_data->>'full_name'
