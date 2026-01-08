@@ -7,6 +7,7 @@ import { ChallengeRenderer } from '@/components/lesson/challenge-renderer';
 import { LessonCompleteModal } from '@/components/lesson/lesson-complete-modal';
 import { useRouter } from 'next/navigation';
 import { usePython } from '@/hooks/use-python';
+import { deductHeart, completeLesson } from '@/actions/user-progress';
 import { useSoundEffects } from '@/hooks/use-sound';
 
 export function LessonContainer({
@@ -22,7 +23,36 @@ export function LessonContainer({
 	const { playSuccess, playError, playComplete } = useSoundEffects();
 
 	const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
-	// ... existing state ...
+	const [hearts, setHearts] = useState(initialHearts);
+
+	const [showCompleteModal, setShowCompleteModal] = useState(false);
+	const [isCompleting, setIsCompleting] = useState(false);
+
+	// Sync hearts when initialHearts loads from DB (fixes "Always starts at 5" bug)
+	// Even with Server Component, this is good to keep if props update, though strictly not needed if checking pure mount.
+	useEffect(() => {
+		setHearts(initialHearts);
+	}, [initialHearts]);
+
+	const [status, setStatus] = useState<'idle' | 'correct' | 'incorrect'>(
+		'idle'
+	);
+	const [isValidating, setIsValidating] = useState(false);
+
+	// Clear output on mount and unmount
+	useEffect(() => {
+		clearOutput();
+		return () => clearOutput();
+	}, []);
+
+	// User Inputs
+	const [selectedOption, setSelectedOption] = useState<string | null>(null);
+	const [code, setCode] = useState('');
+
+	const challenges = lesson.challenges || [];
+	const currentChallenge = challenges[currentChallengeIndex];
+	const progressPercentage =
+		((currentChallengeIndex + 1) / challenges.length) * 100;
 
 	const handleCheck = async () => {
 		if (!currentChallengeIndex && currentChallengeIndex !== 0) return;
