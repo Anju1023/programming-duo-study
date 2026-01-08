@@ -14,11 +14,30 @@ export default async function LearnPage() {
 
 	// Default to empty array if no progress yet
 	const completedLessonIds = userProgress?.completed_lesson_ids || [];
-	const activeLessonId = userProgress?.active_lesson_id;
+
+	// Find the last completed lesson (in course order) to scroll to
+	let scrollToLessonId: number | undefined = undefined;
+	if (courseData) {
+		const allLessons = courseData.units.flatMap((u: any) => u.lessons);
+		// Find the last completed lesson by iterating in order and picking completed ones
+		const completedInOrder = allLessons.filter((l: any) =>
+			completedLessonIds.includes(l.id)
+		);
+		scrollToLessonId =
+			completedInOrder.length > 0
+				? completedInOrder[completedInOrder.length - 1]?.id
+				: allLessons[0]?.id; // Default to first lesson if none completed
+	}
+
+	// For UnitSection, activeLessonId is the first uncompleted (for styling purposes)
+	const allLessons = courseData.units.flatMap((u: any) => u.lessons);
+	const activeLessonId = allLessons.find(
+		(l: any) => !completedLessonIds.includes(l.id)
+	)?.id;
 
 	return (
 		<div className="flex flex-col items-center gap-8 py-8 w-full">
-			<ScrollController activeLessonId={activeLessonId} />
+			<ScrollController activeLessonId={scrollToLessonId} />
 			{/* Temporary Playground for Testing */}
 			<div className="w-full max-w-2xl bg-muted/20 p-6 rounded-xl border border-dashed border-primary/50">
 				<h2 className="text-xl font-bold mb-4 text-center flex items-center justify-center gap-2">
