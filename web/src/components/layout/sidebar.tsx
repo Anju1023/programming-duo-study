@@ -2,13 +2,22 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Trophy, User, BookOpen, Heart, Gem, Flame } from 'lucide-react';
+import {
+	Trophy,
+	User,
+	BookOpen,
+	Heart,
+	Gem,
+	Flame,
+	Terminal,
+} from 'lucide-react';
 import { useUserStore } from '@/lib/store/user-store';
 import { Logo } from '@/components/ui/logo';
 import { cn } from '@/lib/utils';
 
 const sidebarItems = [
 	{ label: '学ぶ', href: '/learn', icon: BookOpen },
+	{ label: '自由研究', href: '/playground', icon: Terminal },
 	{ label: 'ランキング', href: '/leaderboard', icon: Trophy },
 	{ label: 'プロフィール', href: '/profile', icon: User },
 ];
