@@ -1,7 +1,7 @@
 'use client';
 
 import { Editor, OnMount } from '@monaco-editor/react';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import * as monaco from 'monaco-editor';
 import { Loader2 } from 'lucide-react';
@@ -24,17 +24,24 @@ export function CodeEditor({
 	onRunCode,
 }: CodeEditorProps) {
 	const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+	const onRunCodeRef = useRef(onRunCode);
 	const { theme } = useTheme();
+
+	// Update ref when prop changes to avoid stale closures in editor command
+	useEffect(() => {
+		onRunCodeRef.current = onRunCode;
+	}, [onRunCode]);
 
 	const handleEditorDidMount: OnMount = (editor, monaco) => {
 		editorRef.current = editor;
 
 		// Register Run Command (Ctrl+Enter or Cmd+Enter)
-		if (onRunCode) {
-			editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-				onRunCode();
-			});
-		}
+		// We call onRunCodeRef.current to always get the latest function
+		editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+			if (onRunCodeRef.current) {
+				onRunCodeRef.current();
+			}
+		});
 
 		// Configure Monaco
 		monaco.languages.registerCompletionItemProvider('python', {
@@ -42,6 +49,14 @@ export function CodeEditor({
 				model: monaco.editor.ITextModel,
 				position: monaco.Position
 			) => {
+				const word = model.getWordUntilPosition(position);
+				const range = {
+					startLineNumber: position.lineNumber,
+					endLineNumber: position.lineNumber,
+					startColumn: word.startColumn,
+					endColumn: word.endColumn,
+				};
+
 				const suggestions = [
 					{
 						label: 'print',
@@ -50,12 +65,7 @@ export function CodeEditor({
 						insertTextRules:
 							monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
 						documentation: 'Prints objects to the text stream file',
-						range: {
-							startLineNumber: position.lineNumber,
-							endLineNumber: position.lineNumber,
-							startColumn: position.column - 5, // Approximate word start
-							endColumn: position.column,
-						},
+						range: range,
 					},
 					{
 						label: 'def',
@@ -64,12 +74,7 @@ export function CodeEditor({
 						insertTextRules:
 							monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
 						documentation: 'Define a function',
-						range: {
-							startLineNumber: position.lineNumber,
-							endLineNumber: position.lineNumber,
-							startColumn: position.column - 3,
-							endColumn: position.column,
-						},
+						range: range,
 					},
 					// Add more basic Python keywords here if needed
 				];
