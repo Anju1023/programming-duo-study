@@ -23,7 +23,7 @@ export default async function Home() {
 			<main className="flex-1 flex flex-col items-center justify-center p-6 text-center animate-fade-in">
 				<div className="mb-10 relative group cursor-pointer hover:scale-105 transition-transform duration-700">
 					<div className="absolute inset-0 bg-primary/10 blur-2xl rounded-full scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-					<Mascot emotion="happy" size="lg" />
+					<Mascot emotion="happy" size="xl" />
 				</div>
 
 				<div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/20 text-foreground/80 text-sm font-medium mb-6 animate-slide-up">
