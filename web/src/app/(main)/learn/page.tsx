@@ -57,7 +57,6 @@ export default async function LearnPage() {
 
 			{/* Daily Quote (Mock) */}
 			<div className="w-full bg-white dark:bg-card p-5 rounded-[2rem] shadow-sm border border-border/50 flex items-center gap-4 relative overflow-hidden">
-				<div className="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
 				<div className="text-secondary shrink-0">
 					<Heart size={24} className="fill-current" />
 				</div>
