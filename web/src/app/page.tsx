@@ -20,6 +20,22 @@ export default async function Home() {
 				style={{ animationDelay: '1s' }}
 			/>
 
+			<header className="absolute top-0 left-0 w-full px-6 py-4 flex justify-end items-center z-20">
+				{user ? (
+					<Link href="/learn">
+						<Button variant="ghost" className="font-medium hover:bg-white/20">
+							学習画面へ
+						</Button>
+					</Link>
+				) : (
+					<Link href="/login">
+						<Button variant="ghost" className="font-medium hover:bg-white/20">
+							ログイン
+						</Button>
+					</Link>
+				)}
+			</header>
+
 			<main className="flex-1 flex flex-col items-center justify-center p-6 text-center animate-fade-in">
 				<div className="mb-10 relative group cursor-pointer hover:scale-105 transition-transform duration-700">
 					<div className="absolute inset-0 bg-primary/10 blur-2xl rounded-full scale-110 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
