@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { signOut } from '@/app/login/actions';
 import { Button } from '@/components/ui/button';
-import { LogOut } from 'lucide-react';
+import { LogOut, User } from 'lucide-react';
 
 export default async function ProfilePage() {
 	const supabase = await createClient();
@@ -20,8 +20,8 @@ export default async function ProfilePage() {
 
 			<div className="bg-card border rounded-2xl p-8 shadow-sm space-y-6">
 				<div className="flex items-center gap-4 border-b pb-6">
-					<div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-2xl">
-						👤
+					<div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+						<User className="w-8 h-8" />
 					</div>
 					<div>
 						<p className="text-sm text-muted-foreground font-medium">
