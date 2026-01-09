@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface MascotProps {
 	emotion: 'happy' | 'neutral' | 'thinking' | 'encouraging';
@@ -11,6 +12,13 @@ export const Mascot: React.FC<MascotProps> = ({
 	size = 'md',
 	className = '',
 }) => {
+	const sizePixels = {
+		sm: 64,
+		md: 128,
+		lg: 192,
+		xl: 256,
+	};
+
 	const sizeClasses = {
 		sm: 'w-16 h-16',
 		md: 'w-32 h-32',
@@ -18,71 +26,35 @@ export const Mascot: React.FC<MascotProps> = ({
 		xl: 'w-64 h-64',
 	};
 
-	// Map emotions to Tailwind colors
-	const getColorClass = () => {
+	// Map emotions to image assets
+	const getImageSrc = () => {
 		switch (emotion) {
 			case 'happy':
-				return 'text-green-500 dark:text-green-400';
-			case 'encouraging':
-				return 'text-secondary';
+				return '/Kodama_Chan/KodamaChan_Happy.png';
 			case 'thinking':
-				return 'text-primary';
+				return '/Kodama_Chan/KodamaChan_Thinking.png';
+			case 'encouraging':
+				return '/Kodama_Chan/KodamaChan_encouraging.png';
+			case 'neutral':
+				// Fallback to happy for neutral as per plan
+				return '/Kodama_Chan/KodamaChan_Happy.png';
 			default:
-				return 'text-primary';
+				return '/Kodama_Chan/KodamaChan_Happy.png';
 		}
 	};
 
 	return (
 		<div
-			className={`${
-				sizeClasses[size]
-			} ${getColorClass()} relative animate-float transition-all duration-500 drop-shadow-lg ${className}`}
+			className={`${sizeClasses[size]} relative animate-float transition-all duration-500 drop-shadow-lg ${className}`}
 		>
-			<svg viewBox="0 0 100 100" className="w-full h-full fill-current">
-				{/* Body */}
-				<path d="M50 10 C 20 10, 10 40, 10 60 C 10 85, 30 95, 50 95 C 70 95, 90 85, 90 60 C 90 40, 80 10, 50 10 Z" />
-				{/* Eyes */}
-				<circle cx="35" cy="45" r="4" fill="white" />
-				<circle cx="65" cy="45" r="4" fill="white" />
-
-				{/* Mouth Changes based on emotion */}
-				{emotion === 'happy' && (
-					<path
-						d="M 35 60 Q 50 70 65 60"
-						stroke="white"
-						strokeWidth="3"
-						fill="none"
-						strokeLinecap="round"
-					/>
-				)}
-				{emotion === 'neutral' && <circle cx="50" cy="65" r="3" fill="white" />}
-				{emotion === 'thinking' && (
-					<line
-						x1="40"
-						y1="65"
-						x2="60"
-						y2="65"
-						stroke="white"
-						strokeWidth="3"
-						strokeLinecap="round"
-					/>
-				)}
-				{emotion === 'encouraging' && (
-					<path
-						d="M 35 65 Q 50 55 65 65"
-						stroke="white"
-						strokeWidth="3"
-						fill="none"
-						strokeLinecap="round"
-					/>
-				)}
-
-				{/* Leaf on head */}
-				<path
-					d="M 50 10 Q 30 -10 20 5 Q 35 5 50 10"
-					className="text-slate-600 dark:text-slate-300 fill-current"
-				/>
-			</svg>
+			<Image
+				src={getImageSrc()}
+				alt={`Mascot ${emotion}`}
+				width={sizePixels[size]}
+				height={sizePixels[size]}
+				className="object-contain"
+				priority={emotion === 'happy'} // Prioritize loading the default/happy state
+			/>
 		</div>
 	);
 };
